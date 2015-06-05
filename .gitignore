@@ -1,5 +1,8 @@
 .DS_Store
 
+# Local Database
+data/db
+
 # Logs
 logs
 *.log
