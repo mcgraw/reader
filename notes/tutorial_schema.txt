@@ -1,0 +1,51 @@
+db: tutorials
+collection: articles
+
+Article has n sections/chapters
+
+article
+{
+	"id": "1",
+	"language": "swift",
+	"title": "Flying With Swift", 
+	"rating": 5,
+	"created": "date",
+	"last_updated": "date",
+	
+	"author": {
+		"_id": "1",
+		"name": "David McGraw",
+		"email": "david@xmcgraw.com",
+		"password: "hashed",
+		"photo_url": "/path/to/photo.png",
+		"rating": 5
+	},
+	
+	"sections": [
+		{ 
+			"_id": "4",
+			"index": 4,
+			"locked": true,				
+			"title": "Understanding programs",
+			"rating": 5",
+			"created": "date",
+			"last_updated": "date"
+			
+			"layout": [
+				{
+					"style_id": "content",
+					"text": "In the previous section we began to touch on a concept called Control Flow, also known as Flow of Control.  Control flow refers to the order of statements are executed or evaluated when a program is running. If you look at the playground you've been working in you'll notice that each statement you type is evaluated line-by-line starting at the top.  \nSoftware is rarely so straightforward.  In this section we're going to look at a few ways to evaluate current conditions in order to know what we should do."
+				}, {
+					"style_id": "content",
+					"header": "THE IF STATEMENT",
+					"text": "Imagine if we're building a game and we need to alert the player if their health drops below 20%.  You can imagine the game checking for this condition each time the player loses health.  For this we could use an if statement."
+				}, {
+					"style_id": "walkthrough",
+					"text": "var health = 100\nif health < 20 {\n\t\tprintln("I'm scared and don't feel well...")\n}"
+				}
+			]
+		}, {
+			...
+		}
+	]
+}
