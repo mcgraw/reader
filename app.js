@@ -31,24 +31,24 @@ var connection = mongoose.createConnection(dbUrl);
 connection.on('error', console.error.bind(console, 'Connection error:'));
 connection.once('open', function() {
 	console.info("Connected to database: " + dbUrl);
+	
+	// Setup database middleware
+	var users = require('./models/users');
+	var articles = require('./models/articles');
+	function db(req, res, next) {
+		req.db = {
+			User: connection.model('User', users.User, 'users'),
+			Article: connection.model('Article', articles.Article, 'articles')
+		};
+		return next();
+	}
+	
+	// Application routes
+	routes(app, db);
+	
+	// Start express server
+	app.listen(8080);
+	console.log('Express server listening on port 8080');
 });
-
-// Setup database middleware
-var users = require('./models/users');
-var articles = require('./models/articles');
-function db(req, res, next) {
-	req.db = {
-		User: connection.model('User', users.User, 'users'),
-		Article: connection.model('Article', articles.Article, 'articles')
-	};
-	return next();
-}
-
-// Application routes
-routes(app, db);
-
-// Start express server
-app.listen(8080);
-console.log('Express server listening on port 8080');
 
 module.exports = app;

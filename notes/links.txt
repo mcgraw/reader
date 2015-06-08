@@ -1,0 +1,5 @@
+Figuring out how to reference objects in Mongoose
+https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-and-arrays/
+
+Applying an enum to a schema
+http://stackoverflow.com/questions/27447876/is-it-possible-to-create-a-multi-select-enum-in-mongoose

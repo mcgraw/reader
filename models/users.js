@@ -4,14 +4,38 @@ var Schema   = mongoose.Schema;
 var User = new Schema( {
 	email: {
 		type: String,
-		required: true	
+		required: true,	
+		unique: true
+	},
+	password: {
+		type: String,
+		required: true
 	},
 	name: {
-		type: String
+		first: {
+			type: String,
+			trim: true
+		},
+		last: {
+			type: String,
+			trim: true
+		}
+	},
+	admin: {
+		type: Boolean,
+		default: false
 	},
 	photo_url: {
 		type: String
 	},
+	authored: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Article'
+	}],
+	purchased: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Article'
+	}],
 	created: {
 		type: Date,
 		default: Date.now

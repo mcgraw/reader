@@ -28,12 +28,16 @@ Health Check
 Users
 	The USER object
 		id			string
-		created		timestamp
 		email		string
-		name		string
+		name		
+		  first     string
+		  last      string
+		admin       boolean			    ??? needed?  
 		photo_url	string
-		purchased	list				The user's list of purchased articles
-	
+		authored    [Article]			The user's list of authored work
+		purchased	[Article]			The user's list of purchased articles
+		created		timestamp
+		updated		timestamp
 
 	POST /users
 		Creates a new user (reader, author)
@@ -66,10 +70,10 @@ Articles
 		language		string
 		title			string
 		rating			integer
+		author			Author
+		sections		[Section]
 		created			timestamp
 		updated			timestamp
-		author			dictionary of necessary author information
-		sections		list of sections for this article
 
 	POST /articles
 		Create a new article for the user at {id}
@@ -95,9 +99,9 @@ Sections
 		locked			boolean			// is this content available?
 		title			string
 		rating			integer
+		layout			[Layout]
 		created			timestamp
-		last_updated	timestamp
-		layout			list of layout items
+		updated			timestamp
 
 	POST /sections
 		When you create a new section you must select which article to add it to
@@ -116,14 +120,20 @@ Sections
 	
 
 Layouts
+    Layouts help authors create a consistent experience across all of their work. 
+    	
 	The LAYOUT object
-		id					string
-		style_id			string
-		header				string
-		text				string
-		photo_url			string
-		movie_url			string
-		actions				list
+		id				string
+		layout_type		LayoutType
+		header			string
+		text			string
+		photo_url		string
+		movie_url		string
+		actions			
+		  - text	    string
+		  - is_answer   boolean
+		created			timestamp
+		updated			timestamp
 		
 	POST /layouts
 		Create a new layout item for a section

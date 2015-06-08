@@ -1,18 +1,16 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
-var UserSchema = require('./users')
 
-var Article = new Schema( {
-	author: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+var Section = new Schema( {
+	index: {
+		type: Number,
 		required: true
 	},
-	title: {
-		type: String,
-		required: true	
+	locked: {
+		type: Boolean,
+		default: true
 	},
-	language: {
+	title: {
 		type: String,
 		required: true
 	},
@@ -21,9 +19,9 @@ var Article = new Schema( {
 		required: true,
 		default: 5
 	},
-	sections: [{
+	layout: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Section'
+		ref: 'Layout'
 	}],
 	created: {
 		type: Date,
@@ -35,4 +33,4 @@ var Article = new Schema( {
 	}
 });
 
-exports.Article = Article;
+exports.Section = Section;
