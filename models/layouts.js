@@ -32,9 +32,9 @@ var Layout = new Schema( {
 	text: {
 		type: String
 	},
-	photo_url: {
+	photo_url: [{
 		type: String
-	},
+	}],
 	movie_url: {
 		type: String
 	},
