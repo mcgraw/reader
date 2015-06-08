@@ -1,0 +1,39 @@
+THe GTL! Ghetto Task List
+=========================
+
+High Level
+[ ] Create a new admin user so we can write articles under a person
+[ ] Create a new article that is tied to that user
+[ ] Create a content section for an article 
+    - an article can have many sections, like a tutorial series
+[ ] Create a layout item for the content section
+	- start with general content item (text)
+	
+
+Breakdown
+
+[ ] Create a new user
+	- require email
+	 	      password
+	
+[ ] Create a new article
+	- require user
+	- optional title
+			   language
+			   
+[ ] Update article title
+
+[ ] Update article language
+
+[ ] Create a new section
+	- require article
+	- optional title
+
+[ ] Update section title
+
+[ ] Create a new layout
+	- require section
+			  LayoutType
+	
+	
+			  
