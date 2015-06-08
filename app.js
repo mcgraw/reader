@@ -1,14 +1,14 @@
 var express      = require('express');
 var app          = express();                   // Framework to handle routing requests
-var mongoose     = require('mongoose');      // MongoDB modeling tool 
+var mongoose     = require('mongoose');      	// MongoDB modeling tool 
 
-var path         = require('path');          // Utilities for handling and transforming file paths
-var logger       = require('winston');        // HTTP request logger
-var cookieParser = require('cookie-parser'); // Populates req.cookies with an object keyed
-var bodyParser   = require('body-parser');   // https://www.npmjs.com/package/body-parser
-var favicon      = require('serve-favicon'); // Serves and caches a favicon
+var path         = require('path');         	// Utilities for handling and transforming file paths
+var logger       = require('winston');        	// HTTP request logger
+var cookieParser = require('cookie-parser'); 	// Populates req.cookies with an object keyed
+var bodyParser   = require('body-parser');   	// https://www.npmjs.com/package/body-parser
+var favicon      = require('serve-favicon'); 	// Serves and caches a favicon
 
-var routes       = require('./routes');      // Routes for our application   
+var routes       = require('./routes');      	// Routes for our application   
 
 // Register templating engine
 app.set('view engine', 'jade');
@@ -33,12 +33,18 @@ connection.once('open', function() {
 	console.info("Connected to database: " + dbUrl);
 	
 	// Setup database middleware
+	var sessions = require('./models/sessions');
 	var users = require('./models/users');
 	var articles = require('./models/articles');
+	var sections = require('./models/sections');
+	var layouts = require('./models/layouts');
 	function db(req, res, next) {
 		req.db = {
 			User: connection.model('User', users.User, 'users'),
-			Article: connection.model('Article', articles.Article, 'articles')
+			Article: connection.model('Article', articles.Article, 'articles'),
+			Section: connection.model('Section', sections.Section, 'sections'),
+			Layout: connection.model('Layout', layouts.Layout, 'layouts'),
+			Session: connection.model('Session', sessions.Session, 'sessions')
 		};
 		return next();
 	}
