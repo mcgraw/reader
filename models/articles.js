@@ -4,9 +4,14 @@ var UserSchema = require('./users')
 
 var Article = new Schema( {
 	author: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true
+		},
+		photo_url: {
+			type: String
+		}
 	},
 	title: {
 		type: String,
