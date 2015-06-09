@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "nodemon ./node_modules/mocha/bin/mocha ./test --recursive"
+    "test": "nodemon ./node_modules/mocha/bin/mocha ./test --recursive",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
   "dependencies": {
     "body-parser": "~1.12.4",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "chai": "^3.0.0",
     "hippie": "^0.3.0",
+    "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1"
   },
