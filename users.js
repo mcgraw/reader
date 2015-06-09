@@ -11,7 +11,7 @@ function UsersDAO() {
 		// Generate password hash
 		var salt = bcrypt.genSaltSync();
 		var password_hash = bcrypt.hashSync(password, salt);
-	
+		
 		// Create object
 		var user = new db.User({ email: email, 
 							  password: password_hash });
@@ -21,8 +21,6 @@ function UsersDAO() {
 			
 		 	if (err) throw err
 			
-			console.log("New account created: " + user.email);
-		 	
 			if (doc) {
 				callback(null, doc);
 			} else {
