@@ -1,3 +1,10 @@
+Testing
+- https://www.joyent.com/blog/risingstack-writing-testable-apis-the-basics
+- http://blog.modulus.io/getting-started-with-mongoose
+- http://www.scotchmedia.com/tutorials/express/authentication/1/05
+- [coverage reports] http://brianstoner.com/blog/testing-in-nodejs-with-mocha/
+
+
 Figuring out how to reference objects in Mongoose
 https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-and-arrays/
 

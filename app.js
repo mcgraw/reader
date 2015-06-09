@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser'); 	// Populates req.cookies with an o
 var bodyParser   = require('body-parser');   	// https://www.npmjs.com/package/body-parser
 var favicon      = require('serve-favicon'); 	// Serves and caches a favicon
 
+var config       = require('./config');			// Shared configuration items
 var routes       = require('./routes');      	// Routes for our application   
 
 // Register templating engine
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create a connection to our database 
-var dbUrl = 'mongodb://127.0.0.1:27017/reader';
+var dbUrl = config.db_path[app.settings.env];
 var connection = mongoose.createConnection(dbUrl);
 
 connection.on('error', console.error.bind(console, 'Connection error:'));
