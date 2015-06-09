@@ -12,7 +12,7 @@ High Level
 
 Breakdown
 
-[ ] Create a new user
+[X] Create a new user
 	- require email
 	 	      password
 	

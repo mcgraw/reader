@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var crypto = require('crypto');
 
 function SessionsDAO() {
@@ -10,18 +11,15 @@ function SessionsDAO() {
 		var current_date = (new Date()).valueOf().toString();
 		var random = Math.random().toString();
 		var session_id = crypto.createHash('sha1').update(current_date + random).digest('hex');
-		
-		console.log(email);
-		
+				
 		// Create session document
-		var session = db.Session({'email': email, '_id': session_id});
-		session.save(function(err, doc) {
+		var session = db.Session({ '_id': session_id, 'email': email});
+		session.save(function(err, session) {
 			"use strict";
 			
 			if (err) {
 				callback(err, null);
 			} else {
-				console.log("New session created for " + doc.email);
 				callback(null, session_id);
 			}
 		});		
@@ -35,7 +33,43 @@ function SessionsDAO() {
 			callback(err);
 		});		
 	}
+
+	this.getSessionUser = function(db, session_id, callback) {
+		"use strict";
+				
+		db.Session.findOne({'_id': session_id}, function(err, session) {
+			"use strict";
+			
+			if (err) return callback(Error("Unable to fetch session!"), null);;
+			
+			db.User.findOne({'email': session.email}, function(err, user) {
+				"use strict";
+								
+				if (err) return callback(Error("Unable to fetch user!"), null);
+				return callback(null, user);
+			});
+		});
+	}
+	
+	this.getSessionUserObjectId = function(db, session_id, callback) {
+		"use strict";
 		
+		if (!session_id) {
+			return callback(Error("Session not set"), null);
+		}
+				
+		db.Session.findOne({'_id': session_id}, function(err, session) {
+			"use strict";
+			
+			if (err) return callback(err, null);
+			
+			if (!session) {
+				return callback(new Error("Session: " + session_id + " does not exist"), null);
+			}			
+			callback(null, session.user_id);			
+		});	
+	}
+	
 }
 
 module.exports.SessionsDAO = SessionsDAO;

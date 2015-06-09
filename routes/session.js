@@ -7,6 +7,18 @@ function SessionHandler () {
     var users = new UsersDAO();
     var sessions = new SessionsDAO();
    
+    this.isLoggedInMiddleware = function(req, res, next) {
+        var session_id = req.cookies.session;
+        sessions.getSessionUserObjectId(req.db, session_id, function(err, session) {
+            "use strict";
+            
+            if (!err && session_id) {
+                req.session_id = session_id;
+            } 
+            return next();
+        });  
+    }
+    
     this.handleSignup = function(req, res, next) {
         "use strict";
 
@@ -81,7 +93,7 @@ function SessionHandler () {
 
             if (err) return next(err);
 
-            res.cookie('session', session_id);
+            res.cookie('session', session_id); 
             // return res.redirect('/welcome');
             return res.json({"message": "Session started"}); 
         });

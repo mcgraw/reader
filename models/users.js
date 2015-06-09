@@ -29,12 +29,28 @@ var User = new Schema( {
 		type: String
 	},
 	authored: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Article'
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Article'
+		}, 
+		title: {
+			type: String
+		},
+		language: {
+			type: String
+		}
 	}],
 	purchased: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Article'
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Article'
+		}, 
+		title: {
+			type: String
+		},
+		language: {
+			type: String
+		}
 	}],
 	created: {
 		type: Date,

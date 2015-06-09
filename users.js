@@ -55,6 +55,7 @@ function UsersDAO() {
 			}
 		});
 	}
+
 }
 
 module.exports.UsersDAO = UsersDAO;

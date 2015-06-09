@@ -78,7 +78,7 @@ Articles
 	POST /articles
 		Create a new article for the user at {id}
 		
-		Params: "user (required)", "language", "title"
+		Params: "user (required)"
 				
 	GET /articles/{id}
 		Fetches the article given the {id}

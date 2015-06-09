@@ -38,7 +38,7 @@ connection.once('open', function() {
 	var articles = require('./models/articles');
 	var sections = require('./models/sections');
 	var layouts = require('./models/layouts');
-	function db(req, res, next) {
+	function schemaMiddleware(req, res, next) {
 		req.db = {
 			User: connection.model('User', users.User, 'users'),
 			Article: connection.model('Article', articles.Article, 'articles'),
@@ -50,7 +50,7 @@ connection.once('open', function() {
 	}
 	
 	// Application routes
-	routes(app, db);
+	routes(app, schemaMiddleware);
 	
 	// Start express server
 	app.listen(8080);

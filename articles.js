@@ -1,8 +1,27 @@
 // Required modules
+var mongoose = require('mongoose');
 
-// ArticleDAO must be constructed with a connected database
-function ArticleDAO(db) {
+// DAO
+function ArticleDAO() {
 	"use strict";
+	
+	this.createArticle = function(db, author, title, language, callback) {
+		"use strict";
+			
+		var article = db.Article({"author": author._id, 
+							       "title": title, 
+							    "language": language.toLowerCase()});
+		article.save(function(err, doc) {
+			"use strict";
+	
+			if (doc) {					
+				callback(null, doc);
+			} else {
+				callback(err, null);
+			}
+		});
+
+	}
 			
 }
 
