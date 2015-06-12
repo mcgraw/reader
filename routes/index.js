@@ -32,6 +32,8 @@ module.exports = exports = function(app, schemaMiddleware) {
    
     // Articles
     app.post('/articles', contentHandler.handleArticleCreation);
+    
+    app.put('/articles/:id', contentHandler.handleArticleUpdate);
      
     // Welcome page
     // TODO: display welcome page
