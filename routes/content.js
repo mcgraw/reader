@@ -43,6 +43,28 @@ function ContentHandler(connection) {
 		});		
 	}
 	
+	this.handleArticleUpdate = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		var article_id = req.params.tag;	
+		var title = req.body.title;
+		var language = req.body.language;
+			
+		articles.updateArticleWithId(req.db, article_id, title, language, function(err, article) {
+			"use strict";
+			
+			if (article) {
+				console.log("Updated article");
+				res.json({"status": "ok"});
+			} else {
+				res.statusCode = 500;
+				return res.json({"message": err});
+			}
+		});		
+	}
+	
 	this.displayMainPage = function(req, res, next) {
 		"use strict";
 		return res.json({"status": "OK"});
