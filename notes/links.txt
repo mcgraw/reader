@@ -7,6 +7,9 @@ Testing
 
 https://gist.github.com/sethetter/0ed5ca8d2d32cf07a8f4
 
+Handling MongoDB Connection
+http://phaninder.com/posts/mongodbmongoose-connect-best-practices
+
 Figuring out how to reference objects in Mongoose
 https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-and-arrays/
 

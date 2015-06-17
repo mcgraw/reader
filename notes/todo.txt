@@ -16,14 +16,14 @@ Breakdown
 	- require email
 	 	      password
 	
-[ ] Create a new article
+[X] Create a new article
 	- require user
 	- optional title
 			   language
 			   
-[ ] Update article title
+[X] Update article title
 
-[ ] Update article language
+[X] Update article language
 
 [ ] Create a new section
 	- require article
@@ -35,5 +35,5 @@ Breakdown
 	- require section
 			  LayoutType
 	
-	
-			  
+
+

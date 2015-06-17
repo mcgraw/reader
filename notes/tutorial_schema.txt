@@ -1,51 +1,134 @@
-db: tutorials
-collection: articles
+db: reader
+collections: sessions
+			 users
+			 articles
+			 sections
 
-Article has n sections/chapters
+=============================================
 
-article
-{
-	"id": "1",
-	"language": "swift",
-	"title": "Flying With Swift", 
-	"rating": 5,
-	"created": "date",
-	"last_updated": "date",
+Access Patterns
+	- Visit home page to review top articles
+	- Select an article
+		- Consume while being content is being re-inforced (via tests, examples, etc)
+		- Easily select separate sections (based on availability)
+		- Walk away knowing how well you understood the content
+		
+What's an Article?
+	- Simple 1 section article covering a small slice of a subject
+	- Elaborate multi-section article diving deep into a subject
 	
-	"author": {
-		"_id": "1",
-		"name": "David McGraw",
-		"email": "david@xmcgraw.com",
-		"password: "hashed",
-		"photo_url": "/path/to/photo.png",
-		"rating": 5
-	},
+	Both put emphasis on testing the reader 
+		- Articles MUST include examples and questions that put the reader into action
+
+How about courses? (later)
+	- Once articles fill out, a collection of articles that can step someone through understanding 
+	  something from A to Z
 	
-	"sections": [
-		{ 
-			"_id": "4",
-			"index": 4,
-			"locked": true,				
-			"title": "Understanding programs",
-			"rating": 5",
-			"created": "date",
-			"last_updated": "date"
+	Say, for example, we have these articles:
+		Learning Swift From the Ground Up
+		Understanding the iOS SDK
+		Building an iOS App from the ground up
+		Mastering iOS
+		
+		These articles could be gathered into a course that someone could follow. Ideally, this content
+		would be from the SAME instructor/author... The author would be empowered to release articles, then
+		curate them into a course when they are ready.
+		
+=============================================
+
+
+Manage sessions
+---------------
+	session
+		_id			
+		email			
+
+Managing users
+--------------
+	user
+		_id				
+		email	
+		password
+		name
+			first
+			last
+		admin
+		photo_url
+		social
+			twitter
+			blog
+		authored [ ]		used to fetch the articles authored by this user
+			_id
+			title
+			language
+		purchased [ ]		used to fetch the purchased articles by this user
+			_id
+			title
+			language
+		created
+		updated		
+
+Building articles
+-----------------
+
+	Do we embed sections (+layouts) or keep it as an array of _ids? 
+		- we'll never load the entire article in one shot... it'll always be in sections
+		- we'll never just randomly access a layout item
+			Sections + layout items should definitely be together
+		- we will request individual sections
+		
+	Need to figure out what other metadata we'll want in order to display an article home page
+		
+	article 
+		_id
+		language
+		title
+		rating
+		created
+		updated
+		
+		author				populate & sync to reduce round-trips
+			_id
+			name			first + last
+			social			so we can help build their audience
+				twitter		
+				blog
+			photo_url		so we can display their photo on the article hero
 			
-			"layout": [
-				{
-					"style_id": "content",
-					"text": "In the previous section we began to touch on a concept called Control Flow, also known as Flow of Control.  Control flow refers to the order of statements are executed or evaluated when a program is running. If you look at the playground you've been working in you'll notice that each statement you type is evaluated line-by-line starting at the top.  \nSoftware is rarely so straightforward.  In this section we're going to look at a few ways to evaluate current conditions in order to know what we should do."
-				}, {
-					"style_id": "content",
-					"header": "THE IF STATEMENT",
-					"text": "Imagine if we're building a game and we need to alert the player if their health drops below 20%.  You can imagine the game checking for this condition each time the player loses health.  For this we could use an if statement."
-				}, {
-					"style_id": "walkthrough",
-					"text": "var health = 100\nif health < 20 {\n\t\tprintln("I'm scared and don't feel well...")\n}"
-				}
-			]
-		}, {
-			...
-		}
-	]
-}
+		sections [ ]
+			_id	
+		
+		
+Article details
+---------------
+
+	Think of a section like a chapter. A chapter has a unique layout which will help with
+	consistency.
+	
+	section
+		_id
+		index			An author may decide to move a section to a different position in the article
+		locked			An author may decide to put this section behind a paywall
+		title
+		description		Short 'what this section is about'
+		rating
+		created
+		updated
+		
+		blocks [ ]
+			style			Make it easier to understand how to render this block
+			header
+			body
+			code
+			media [ ]		Sequence of images/movies to cycle through for this element
+				media_url
+			steps [{ }]
+				title
+				media_url
+			questions [{ }]
+				answer
+				items [ ]
+					title
+			download { }
+				extension
+				path
