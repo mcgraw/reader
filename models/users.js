@@ -13,7 +13,21 @@ var User = new Schema( {
 	},
 	name: {
 		type: String,
+		required: true,
 		trim: true
+	},
+	username: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true
+	},
+	registered: {
+		type: Boolean,
+		default: false
+	},
+	biography: {
+		type: String
 	},
 	admin: {
 		type: Boolean,
