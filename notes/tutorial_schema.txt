@@ -51,7 +51,6 @@ Managing users
 		password
 		name
 		username
-		registered
 		biography
 		admin
 		photo_url

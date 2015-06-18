@@ -22,10 +22,6 @@ var User = new Schema( {
 		trim: true,
 		unique: true
 	},
-	registered: {
-		type: Boolean,
-		default: false
-	},
 	biography: {
 		type: String
 	},
