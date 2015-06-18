@@ -23,13 +23,15 @@ function SessionHandler () {
         "use strict";
 
         var email = req.body.email;
+        var name = req.body.name;
+        var username = req.body.username;
         var password = req.body.password;
         var verify = req.body.verify;
        
         // set these up in case we have an error case
         var errors = {'email': email};
         if (validateSignup(password, verify, email, errors)) {
-            users.addUser(req.db, password, email, function(err, user) {
+            users.addUser(req.db, password, email, name, username, function(err, user) {
                 "use strict";
 
                 if (err) {
@@ -46,6 +48,7 @@ function SessionHandler () {
                     }
                 }
 
+                res.statusCode = 201;
                 startSession(req, res, next, user['email']);
             });
         }

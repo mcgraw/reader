@@ -12,7 +12,7 @@ describe('Users', function() {
 		
 		it('should add a valid user', function(done) {	 
 			var users = new UsersDAO()
-			users.addUser(db, "pass1234", "david@xmcgraw.com", function(err, user) {
+			users.addUser(db, "pass1234", "david@xmcgraw.com", "David", "mcgraw", function(err, user) {
 				expect(user.email).to.be.equal("david@xmcgraw.com");
 				expect(user.password).to.not.be.equal("pass1234");
 				done();

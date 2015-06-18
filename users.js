@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt-nodejs');
 function UsersDAO() {
 	"use strict";
 								  
-	this.addUser = function(db, password, email, callback) {
+	this.addUser = function(db, password, email, name, username, callback) {
 		"use strict";
 		
 		// Generate password hash
@@ -14,7 +14,9 @@ function UsersDAO() {
 		
 		// Create object
 		var user = new db.User({ email: email, 
-							  password: password_hash });
+							  password: password_hash,
+							  	  name: name,
+							  username: username });
 							  
 		user.save(function(err, doc) {
 			"use strict";

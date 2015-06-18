@@ -18,28 +18,41 @@ module.exports = exports = function(app, schemaMiddleware) {
     // The main page of the reader
     app.get('/', contentHandler.displayMainPage);
     
-    // User handling
-    // TODO: display signup page
-    
-    // Create a new user and begin a session
-    app.post('/users', sessionHandler.handleSignup);
-  
     // Login
     app.post('/login', sessionHandler.handleBeginSession);
   
     // Logout
     app.get('/logout', sessionHandler.handleEndSession);
-   
+    
+    
+    // Profile
+    // ============================================================
+    
+    // Accounts
+    // ============================================================
+    
+    // Create a new user and begin a session
+    app.post('/users', sessionHandler.handleSignup);
+    
+    
     // Articles
+    // ============================================================
+    
+    // Create a new article
     app.post('/articles', contentHandler.handleArticleCreation);
     
+    // Update an article with the given id
     app.put('/articles/:id', contentHandler.handleArticleUpdate);
-     
-    // Welcome page
-    // TODO: display welcome page
     
-    // Display article
-    // TODO: display article page        
+    // Sections
+    // ============================================================
+    
+    
+    // Blocks
+    // ============================================================
+    
+    
+     
 
     // Error handling middleware
     app.use(ErrorHandler);   
