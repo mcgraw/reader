@@ -32,6 +32,9 @@ module.exports = exports = function(app, schemaMiddleware) {
     
     // Display a user profile
     app.get('/profile/:username', userHandler.displayProfile);
+    
+    // Update a user profile
+    app.post('/profile/:username', userHandler.updateProfile);
        
         
     // Accounts

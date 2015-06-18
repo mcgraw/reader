@@ -27,7 +27,14 @@ function UserHandler () {
        });      
    }
    
-   
+   this.updateProfile = function(req, res, next) {
+        "use strict";
+      
+        if (!req.session_id) throw Error("You need to log in to do that");
+        
+        next(new Error("Not implemented"));
+   }
+      
 }
 
 module.exports = UserHandler;

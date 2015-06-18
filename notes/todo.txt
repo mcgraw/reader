@@ -22,7 +22,7 @@ API
 * Article Handling
 	x create a new article (author, title, language)
 	x update article (title, language)
-	- update description
+	x update description
 	- publish article (must have 1 published section)
 	
 * Section handling
