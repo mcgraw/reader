@@ -1,5 +1,6 @@
 // Require modules
 var SessionHandler = require('./session');
+var UserHandler    = require('./user');
 var ContentHandler = require('./content');
 var ErrorHandler   = require('./error').errorHandler;
 
@@ -7,6 +8,7 @@ var ErrorHandler   = require('./error').errorHandler;
 module.exports = exports = function(app, schemaMiddleware) {
 
     var sessionHandler = new SessionHandler();
+    var userHandler    = new UserHandler();
     var contentHandler = new ContentHandler();
     
     // Middleware to access database schemas
@@ -28,13 +30,17 @@ module.exports = exports = function(app, schemaMiddleware) {
     // Profile
     // ============================================================
     
+    // Display a user profile
+    app.get('/profile/:username', userHandler.displayProfile);
+       
+        
     // Accounts
     // ============================================================
     
     // Create a new user and begin a session
-    app.post('/users', sessionHandler.handleSignup);
+    app.post('/accounts', sessionHandler.handleSignup);
     
-    
+
     // Articles
     // ============================================================
     
@@ -43,6 +49,7 @@ module.exports = exports = function(app, schemaMiddleware) {
     
     // Update an article with the given id
     app.put('/articles/:id', contentHandler.handleArticleUpdate);
+    
     
     // Sections
     // ============================================================

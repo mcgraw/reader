@@ -25,16 +25,10 @@ Health Check
 		Returns status information (200 if OK)
 
 Profile
-
-	GET /profile/add_username
-		Allow the user to set a username
 		
 	GET /profile/{username}
-		Fetches the profile for this username
-	
-	GET /profile/{username}/articles	
-		Fetches the articles written by the username
-	
+		Displays a user profile
+		
 Accounts
 
 	POST /accounts

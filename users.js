@@ -32,6 +32,22 @@ function UsersDAO() {
 		});	
 	}	
 	
+	this.findUser = function(db, username, callback) {
+		"use strict";
+		
+		db.User.findOne({ 'username': username }, function(err, user) {
+			"use strict";
+			
+			if (err) return callback(err, null);
+			
+			if (user) {
+				return callback(null, user);
+			} else {
+				return callback(new Error("No such user with username!"), null);
+			}
+		});
+	}
+	
 	this.validateLogin = function(db, password, email, callback) {
 		"use strict";
 		
