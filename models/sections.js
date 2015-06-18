@@ -10,6 +10,7 @@ var LayoutType = {
 	STEPS		: 'Steps',
 	IMAGE		: 'Image',
 	VIDEO		: 'Video',
+	TAKEAWAY    : 'Takeaway',
 	REVIEW      : 'Review',
 	EMAIL		: 'Email'
 };
@@ -63,6 +64,7 @@ var Section = new Schema( {
 			   	   LayoutType.STEPS,
 			   	   LayoutType.IMAGE,
 			       LayoutType.VIDEO,
+				   LayoutType.TAKEAWAY,
 			       LayoutType.REVIEW,
 				   LayoutType.EMAIL]
 		},
