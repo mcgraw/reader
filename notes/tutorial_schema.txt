@@ -82,6 +82,7 @@ Building articles
 	article 
 		_id
 		title
+		description
 		language
 		rating
 		published

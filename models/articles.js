@@ -7,6 +7,9 @@ var Article = new Schema( {
 		type: String,
 		required: true	
 	},
+	description: {
+		type: String
+	},
 	language: {
 		type: String,
 		required: true

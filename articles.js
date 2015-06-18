@@ -23,29 +23,25 @@ function ArticleDAO() {
 
 	}
 		
-	this.updateArticleWithId = function(db, id, title, language, callback) {
+	this.updateArticleWithId = function(db, id, body, callback) {
 		"use strict";
-		
+				
 		db.Article.findOne({'_id': id}, function(err, article) {
 			"use strict";
 						
 			if (err) return callback(err, null);
 			
 			if (!article) return callback(Error("Couldn't find article"), null);
-						
-			if (title) {
-				article.title = title;
+								
+			if (body.language) {
+				body.language = body.language.toLowerCase();
 			}
-			
-			if (language) {
-				article.language = language.toLowerCase();
-			}
-			
-			article.save(function(err, doc) {
+									
+			article.update(body, function(err, doc) {
 				"use strict";
 				
 				if (doc) {
-					callback(null, article);
+					callback(null, doc);
 				} else {
 					callback(err, null);
 				}

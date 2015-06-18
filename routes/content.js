@@ -47,17 +47,12 @@ function ContentHandler(connection) {
 		"use strict";
 		
 		if (!req.session_id) throw Error("You need to log in to do that");
-		
-		var article_id = req.params.tag;	
-		var title = req.body.title;
-		var language = req.body.language;
-			
-		articles.updateArticleWithId(req.db, article_id, title, language, function(err, article) {
+							
+		articles.updateArticleWithId(req.db, req.params.id, req.body, function(err, article) {
 			"use strict";
 			
 			if (article) {
-				console.log("Updated article");
-				res.json({"status": "ok"});
+				res.json(article);
 			} else {
 				res.statusCode = 500;
 				return res.json({"message": err});
