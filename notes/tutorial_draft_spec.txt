@@ -23,60 +23,50 @@ Health Check
 
 	GET /test
 		Returns status information (200 if OK)
-				
-	
-Users
-	The USER object
-		id			string
-		email		string
-		name		
-		  first     string
-		  last      string
-		admin       boolean			    ??? needed?  
-		photo_url	string
-		authored    [Article]			The user's list of authored work
-		purchased	[Article]			The user's list of purchased articles
-		created		timestamp
-		updated		timestamp
 
-	POST /users
-		Creates a new user (reader, author)
+Profile
+
+	GET /profile/add_username
+		Allow the user to set a username
 		
-		Params: "email"
+	GET /profile/{username}
+		Fetches the profile for this username
+	
+	GET /profile/{username}/articles	
+		Fetches the articles written by the username
+	
+Accounts
+
+	POST /accounts
+		Creates a new account 
 		
-	GET /users
-		Retrieves a list of all users
+		Params: email, password, name
 		
-	GET /users?email={email}
+	GET /accounts/{username}
+		Get the account for this username
+	
+	PUT /accounts/{username}
+		Update the account at this username
+		
+	DELETE /accounts/{username}
+		Not available
+			
+	Helpers:
+	
+	GET /accounts?email={email}
 		Check if a user is registered with the provided e-mail
 		
 		Returns: 200, if successful. 404, if the user doesn't exist.
-							
-	GET /users/{id}
-		Fetches the user given the id
 		
-	PUT /users/{id}
-		If exists, update the user at the provided id. Otherwise, error.
+	GET /accounts?username={username}
+		Check if a username is available to use
 		
-	DELETE /users/{id}
-		Remove the account
-	
-	GET /users/{id}/articles
-		Get all of the articles created under this user
+		Returns: 200, if successful. 404, if the user doesn't exist.
 		
 Articles
-	The ARTICLE object
-		id				string
-		language		string
-		title			string
-		rating			integer
-		author			Author
-		sections		[Section]
-		created			timestamp
-		updated			timestamp
 
 	POST /articles
-		Create a new article for the user at {id}
+		Create a new article for the user
 		
 		Params: "user (required)"
 				
@@ -86,62 +76,37 @@ Articles
 	PUT /articles/{id}
 		Updates an existing article
 		
-		Params: "language", "title"
-		
 	DELETE /articles/{id}
 		Deletes an article
 		
-		
 Sections
-	The SECTION object
-		id				string
-		index			integer
-		locked			boolean			// is this content available?
-		title			string
-		rating			integer
-		layout			[Layout]
-		created			timestamp
-		updated			timestamp
 
-	POST /sections
-		When you create a new section you must select which article to add it to
+	POST /articles/{id}/sections
+		Create a new section for the article
 		
-		Params: "article (required)", "title"
+		Params: "title"
 				
-	GET /sections/{id}
+	GET /articles/{id}/sections/{id}
 		Retrieve a section from an article
 		
-	PUT /sections/{id}
+	PUT /articles/{id}/sections/{id}
 		Updates a section of an article
 	
-	DELETE /sections/{id}
+	DELETE /articles/{id}/sections/{id}
 		Deletes a section from an article
 		
-	
-
-Layouts
-    Layouts help authors create a consistent experience across all of their work. 
-    	
-	The LAYOUT object
-		id				string
-		layout_type		LayoutType
-		header			string
-		text			string
-		photo_url		string
-		movie_url		string
-		actions			
-		  - text	    string
-		  - is_answer   boolean
-		created			timestamp
-		updated			timestamp
+Blocks
 		
-	POST /layouts
-		Create a new layout item for a section
+	POST /sections/{id}/block
+		Create a new block for the section
 		
-		Params: "section (required)"
+		params: style
 		
-	PUT /layouts/{id}
-		Update a layout
+	GET /sections/{id}/block/{id}
+		Get the block for this section
+				
+	PUT /sections/{id}/block/{id}
+		Update a block
 		
 	DELETE /layouts/{id}
 		Delete the layout item at the provided index
