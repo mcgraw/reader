@@ -81,9 +81,10 @@ Building articles
 		
 	article 
 		_id
-		language
 		title
+		language
 		rating
+		published
 		created
 		updated
 		
@@ -112,6 +113,7 @@ Article details
 		title
 		description		Short 'what this section is about'
 		rating
+		published
 		created
 		updated
 		

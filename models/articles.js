@@ -3,16 +3,6 @@ var Schema   = mongoose.Schema;
 var UserSchema = require('./users')
 
 var Article = new Schema( {
-	author: {
-		_id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true
-		},
-		photo_url: {
-			type: String
-		}
-	},
 	title: {
 		type: String,
 		required: true	
@@ -26,10 +16,11 @@ var Article = new Schema( {
 		required: true,
 		default: 5
 	},
-	sections: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Section'
-	}],
+	published: {
+		type: Boolean,
+		required: true,
+		default: false
+	},
 	created: {
 		type: Date,
 		default: Date.now
@@ -37,7 +28,32 @@ var Article = new Schema( {
 	updated: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	author: {
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true
+		},
+		name: {
+			type: String
+		},
+		social: {
+			twitter: {
+				type: String
+			},
+			blog: {
+				type: String
+			}
+		},
+		photo_url: {
+			type: String
+		}
+	},
+	sections: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Section'
+	}]
 });
 
 exports.Article = Article;

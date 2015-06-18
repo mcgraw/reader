@@ -38,13 +38,11 @@ connection.once('open', function() {
 	var users = require('./models/users');
 	var articles = require('./models/articles');
 	var sections = require('./models/sections');
-	var layouts = require('./models/layouts');
 	function schemaMiddleware(req, res, next) {
 		req.db = {
 			User: connection.model('User', users.User, 'users'),
 			Article: connection.model('Article', articles.Article, 'articles'),
 			Section: connection.model('Section', sections.Section, 'sections'),
-			Layout: connection.model('Layout', layouts.Layout, 'layouts'),
 			Session: connection.model('Session', sessions.Session, 'sessions')
 		};
 		return next();

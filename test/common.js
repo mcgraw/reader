@@ -11,7 +11,6 @@ var SessionModel = require('../models/sessions').Session;
 var UserModel = require('../models/users').User;
 var ArticleModel = require('../models/articles').Article;
 var SectionModel = require('../models/sections').Section;
-var LayoutModel = require('../models/layouts').Layout;
 
 var mongoose = require('mongoose');
 
@@ -20,6 +19,5 @@ global.db = {
 	User: mongoose.connection.model('User', UserModel, 'users'),
 	Session: mongoose.connection.model('Session', SessionModel, 'sessions'),
 	Article: mongoose.connection.model('Article', ArticleModel, 'articles'),
-	Section: mongoose.connection.model('Section', SectionModel, 'sections'),
-	Layout: mongoose.connection.model('Layout', LayoutModel, 'layouts')
+	Section: mongoose.connection.model('Section', SectionModel, 'sections')
 };

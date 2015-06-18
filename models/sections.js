@@ -23,6 +23,7 @@ var Section = new Schema( {
 		type: Boolean,
 		default: true
 	},
+	
 	title: {
 		type: String,
 		required: true
@@ -35,6 +36,11 @@ var Section = new Schema( {
 		type: Number,
 		required: true,
 		default: 5
+	},
+	published: {
+		type: Boolean,
+		required: true,
+		default: false
 	},
 	created: {
 		type: Date,
