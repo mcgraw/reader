@@ -12,14 +12,8 @@ var User = new Schema( {
 		required: true
 	},
 	name: {
-		first: {
-			type: String,
-			trim: true
-		},
-		last: {
-			type: String,
-			trim: true
-		}
+		type: String,
+		trim: true
 	},
 	admin: {
 		type: Boolean,
