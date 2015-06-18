@@ -1,39 +1,63 @@
 THe GTL! Ghetto Task List
 =========================
 
-High Level
-[ ] Create a new admin user so we can write articles under a person
-[ ] Create a new article that is tied to that user
-[ ] Create a content section for an article 
-    - an article can have many sections, like a tutorial series
-[ ] Create a layout item for the content section
-	- start with general content item (text)
+API
+-------------------------
+
+* Issues
+	- Update user and article interaction with the updated models
+	- Switch updateArticleWithId from save to update
+
+* Session Handling
+	x create a new session for a user
+	x end a session for a user 
+	- session invalidation after x-time
 	
-
-Breakdown
-
-[X] Create a new user
-	- require email
-	 	      password
+* User Handling
+	x create a new user (password, email)
+	x validate their login
+	- Need to be able to update user information 
+		> first, last, photo_url, social links (twitter, personal blog)
+		
+* Article Handling
+	x create a new article (author, title, language)
+	x update article (title, language)
+	- update description
+	- publish article (must have 1 published section)
 	
-[X] Create a new article
-	- require user
-	- optional title
-			   language
-			   
-[X] Update article title
-
-[X] Update article language
-
-[ ] Create a new section
-	- require article
-	- optional title
-
-[ ] Update section title
-
-[ ] Create a new layout
-	- require section
-			  LayoutType
+* Section handling
+	- create a new section (title)
+	- update section (title, description)
+	- publish section
 	
+	- add new blocks (in priority order)
+		- content 
+		- question
+		- code 
+		- steps
+		- image
+		- walkthrough
+		- takeaway
+		- video
+		- download 
+		- review
+		- email
+	
+	- update blocks
+		- content 
+		- question
+		- code 
+		- steps
+		- image
+		- walkthrough
+		- takeaway
+		- video
+		- download 
+		- review
+		- email
+	
+		
+Client/Frontend
+-------------------------
 
-
+Very basic client that let's you perform major tasks w/ minimal UI
