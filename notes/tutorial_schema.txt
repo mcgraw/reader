@@ -50,8 +50,9 @@ Managing users
 		email	
 		password
 		name
-			first
-			last
+		username
+		registered
+		biography
 		admin
 		photo_url
 		social
