@@ -7,12 +7,11 @@ var LayoutType = {
 	WALKTHROUGH : 1002,
 	QUESTION    : 1003,
 	CODE		: 1004,
-	STEPS		: 1005,
-	IMAGE		: 1006,
-	VIDEO		: 1007,
-	TAKEAWAY    : 1008,
-	REVIEW      : 1009,
-	EMAIL		: 1010
+	IMAGE		: 1005,
+	VIDEO		: 1006,
+	TAKEAWAY    : 1007,
+	REVIEW      : 1008,
+	EMAIL		: 1009
 };
 
 var Block = new Schema( {
@@ -25,7 +24,6 @@ var Block = new Schema( {
 			   LayoutType.WALKTHROUGH,
 			   LayoutType.QUESTION,
 			   LayoutType.CODE,
-		   	   LayoutType.STEPS,
 		   	   LayoutType.IMAGE,
 		       LayoutType.VIDEO,
 			   LayoutType.TAKEAWAY,
@@ -54,14 +52,17 @@ var Block = new Schema( {
 	}],
 	questions: [{
 		answer: {
-			type: Number
+			type: Number,
+			required: true
 		},
 		items: [{
 			_id: { 
-				type: String 
+				type: Number,
+				required: true 
 			},
 			title: {
-				type: String 
+				type: String,
+				required: true
 			}
 		}]
 	}],

@@ -31,23 +31,21 @@ API
 	- publish section
 	
 	- add new blocks (in priority order)
-		- content 
-		- question
-		- code 
-		- steps
-		- image
+		x content 
+		x question
+		x code 
+		x image
 		- walkthrough
-		- takeaway
-		- video
-		- download 
-		- review
-		- email
+		x takeaway
+		x video
+		x download 
+		x review
+		x email
 	
 	- update blocks
 		- content 
 		- question
 		- code 
-		- steps
 		- image
 		- walkthrough
 		- takeaway

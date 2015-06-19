@@ -185,14 +185,15 @@ function ArticleDAO() {
 				case BlockModel.Type.DOWNLOAD:
 					block = populateDownloadBlock(block, body.extension, body.file_path);
 					break;
-				case BlockModel.Type.WALKTHROUGH:
-					return callback(new Error("Tag not implemented!"), null);
 				case BlockModel.Type.QUESTION:
-					return callback(new Error("Tag not implemented!"), null);
+					block = populateQuestionBlock(block, body.question_index, body.questions);
+					break;
 				case BlockModel.Type.CODE:
-					return callback(new Error("Tag not implemented!"), null);
-				case BlockModel.Type.STEPS:
-					return callback(new Error("Tag not implemented!"), null);
+					block = populateCodeBlock(block, body.body);
+					break;
+				case BlockModel.Type.WALKTHROUGH:
+					block = populateWalkthroughBlock(block, body.steps);
+					break;
 				case BlockModel.Type.IMAGE:
 					block = populateMediaBlock(block, body.media_path);
 					break;
@@ -256,20 +257,26 @@ function ArticleDAO() {
 		block.download.path = file_path;
 		return block;
 	}
-	
-	function populateWalkthroughBlock(block, body) {
-		return block;
-	}
-	
-	function populateQuestionBlock(block, body) {
+		
+	function populateQuestionBlock(block, answer_index, questions) {
+		var q = { 'answer': answer_index, 'items': [] }
+		
+		for (question in questions) {
+			q.items.push({ '_id': question.index, 'title': question.title });	
+		}	
+		block.questions.push(q);	
 		return block;
 	}
 	
 	function populateCodeBlock(block, body) {
+		block.body = body;
 		return block;
 	}
 	
-	function populateStepsBlock(block, body) {
+	function populateWalkthroughBlock(block, steps) {
+		for (step in steps) {
+			block.steps.push({ 'title': step.title, 'media_url': step.media_url });
+		}
 		return block;
 	}
 	
