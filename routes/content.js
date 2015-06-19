@@ -150,6 +150,39 @@ function ContentHandler(connection) {
 	// Blocks
 	// ============================================================
 	
+	this.handleBlockCreation = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		articles.createBlock(req.db, req.params.id, req.body, function(err, block) {
+			"use strict";
+			
+			if (block) {
+				res.json(block);
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});		
+	}
+	
+	this.handleBlockDelete = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		articles.deleteBlock(req.db, req.params.section_id, req.params.block_id, function(err) {
+			"use strict";
+			
+			if (!err) {
+				res.json({"message": "removed"});
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});
+	}
 }
 
 module.exports = ContentHandler;

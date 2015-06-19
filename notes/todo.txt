@@ -27,7 +27,7 @@ API
 	
 * Section handling
 	x create a new section (title)
-	- update section (title, description)
+	x update section (title, description)
 	- publish section
 	
 	- add new blocks (in priority order)

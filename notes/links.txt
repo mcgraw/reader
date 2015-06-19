@@ -16,5 +16,8 @@ https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-
 Applying an enum to a schema
 http://stackoverflow.com/questions/27447876/is-it-possible-to-create-a-multi-select-enum-in-mongoose
 
+Embedded Document Handling
+http://mongoosejs.com/docs/2.7.x/docs/embedded-documents.html
+
 Sending email
 http://blog.nodejitsu.com/sending-emails-in-node/

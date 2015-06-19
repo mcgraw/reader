@@ -73,8 +73,11 @@ module.exports = exports = function(app, schemaMiddleware) {
     // Blocks
     // ============================================================
     
+    // Create a new block
+    app.post('/sections/:id/block', contentHandler.handleBlockCreation);
     
-     
+    // Delete a block
+    app.delete('/sections/:section_id/block/:block_id', contentHandler.handleBlockDelete);
 
     // Error handling middleware
     app.use(ErrorHandler);   

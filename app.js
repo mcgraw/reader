@@ -36,12 +36,15 @@ mongoose.connection.on('connected', function(ref) {
 	var users = require('./models/users');
 	var articles = require('./models/articles');
 	var sections = require('./models/sections');
+	var blocks = require('./models/blocks');
 	function schemaMiddleware(req, res, next) {
 		req.db = {
+			Session: mongoose.connection.model('Session', sessions.Session, 'sessions'),
 			User: mongoose.connection.model('User', users.User, 'users'),
 			Article: mongoose.connection.model('Article', articles.Article, 'articles'),
 			Section: mongoose.connection.model('Section', sections.Section, 'sections'),
-			Session: mongoose.connection.model('Session', sessions.Session, 'sessions')
+			Session: mongoose.connection.model('Session', sessions.Session, 'sessions'),
+			Block: mongoose.connection.model('Block', blocks.Block, 'blocks')
 		};
 		return next();
 	}
