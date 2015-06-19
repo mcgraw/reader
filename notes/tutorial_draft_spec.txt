@@ -95,14 +95,11 @@ Blocks
 		Create a new block for the section
 		
 		params: style
-		
-	GET /sections/{id}/block/{id}
-		Get the block for this section
 				
 	PUT /sections/{id}/block/{id}
 		Update a block
 		
-	DELETE /layouts/{id}
+	DELETE /sections/{id}/block/{id}
 		Delete the layout item at the provided index
 		
 	
