@@ -15,6 +15,7 @@ function SessionHandler () {
             if (!err && session_id) {
                 req.session_id = session_id;
             } 
+            
             return next();
         });  
     }

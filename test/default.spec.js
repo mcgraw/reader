@@ -22,16 +22,15 @@ function connectToDatabase(callback) {
 
 // Begin Test Process
 
-before(function(done) {
-	if (mongoose.connection.db) return done();
+// before(function(done) {
+// 	if (mongoose.connection.db) return done();
 
-	connectToDatabase(function() {
-		clearDatabase(function() {
-			done();
-		});
-	});
-});
-
+// 	connectToDatabase(function() {
+// 		clearDatabase(function() {
+// 			done();
+// 		});
+// 	});
+// });
 
 after(function(done) {
 	clearDatabase(function() {

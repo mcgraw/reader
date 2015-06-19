@@ -1,7 +1,5 @@
 'use strict';
 
-var mongoose = require('mongoose');
-
 var SessionsDAO = require('../../sessions').SessionsDAO;
 var UsersDAO = require('../../users').UsersDAO;
 var ArticlesDAO = require('../../articles').ArticleDAO;

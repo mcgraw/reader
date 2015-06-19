@@ -26,7 +26,8 @@
     "hippie": "^0.3.0",
     "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
-    "sinon": "^1.14.1"
+    "sinon": "^1.14.1",
+    "supertest": "^1.0.1"
   },
   "private": true
 }
