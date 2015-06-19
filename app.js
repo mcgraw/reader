@@ -25,13 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Expose public directory for thefront-end client
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Create a connection to our database 
-var dbUrl = config.db_path[app.settings.env];
-var connection = mongoose.createConnection(dbUrl);
+// Setup the connection to the database
+var db_server = app.settings.env;
 
-connection.on('error', console.error.bind(console, 'Connection error:'));
-connection.once('open', function() {
-	console.info("Connected to database: " + dbUrl);
+mongoose.connection.on('connected', function(ref) {
+	console.log("Connected to " + db_server + " DB!");
 	
 	// Setup database middleware
 	var sessions = require('./models/sessions');
@@ -40,10 +38,10 @@ connection.once('open', function() {
 	var sections = require('./models/sections');
 	function schemaMiddleware(req, res, next) {
 		req.db = {
-			User: connection.model('User', users.User, 'users'),
-			Article: connection.model('Article', articles.Article, 'articles'),
-			Section: connection.model('Section', sections.Section, 'sections'),
-			Session: connection.model('Session', sessions.Session, 'sessions')
+			User: mongoose.connection.model('User', users.User, 'users'),
+			Article: mongoose.connection.model('Article', articles.Article, 'articles'),
+			Section: mongoose.connection.model('Section', sections.Section, 'sections'),
+			Session: mongoose.connection.model('Session', sessions.Session, 'sessions')
 		};
 		return next();
 	}
@@ -52,8 +50,48 @@ connection.once('open', function() {
 	routes(app, schemaMiddleware);
 	
 	// Start express server
-	app.listen(8080);
-	console.log('Express server listening on port 8080');
+	app.listen(8080, function() {
+		console.log('Express server listening on port 8080');
+	});	
 });
 
-module.exports = app;
+// Connection throws an error
+mongoose.connection.on('error', function(err) {
+	console.error('Failed to connect to DB ' + db_server + ' on startup', err);
+});
+
+// Connection is disconnected
+mongoose.connection.on('disconnected', function(err) {
+	console.error('Mongoose default connection to DB ' + db_server + ' disconnected', err);
+});
+
+var gracefulExit = function() {
+	mongoose.connection.close(function() {
+		console.log('Mongoose default connection with DB ' + db_server + ' is disconnected');
+		process.exit(0);
+	});
+}
+
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
+
+// Attempt connection
+try {
+	var options = {
+		db: { native_parser: true },
+		server: { poolSize: 5 },
+		replset: { },
+		user: '',
+		pass: ''
+	};
+	
+	// Prevent the connection from dying prematurely
+	options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
+	
+	mongoose.connect(config.db_path[app.settings.env], options);
+	console.log('Trying to connect to DB ' + db_server);
+} catch (err) {
+	console.log('Server initialization failed ', err.message);
+}
+
+module.exports = app
