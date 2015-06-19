@@ -33,15 +33,14 @@ function ContentHandler(connection) {
 			articles.createArticle(req.db, user, title, language, function(err, article) {
 				"use strict";
 				
-				if(article) {
-					console.log("Created a new article: " + title);
-					
+				if(article) {					
 					user["authored"].push({"_id": article._id, 
 										 "title": article.title,
 									  "language": article.language});
 									  
 					user.save(function(err) {
 						if (err) throw Error("Failed to reference newly created article!");
+						res.statusCode = 201;
 						res.json({"status": "ok"});
 					});				
 				} else {

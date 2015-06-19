@@ -3,32 +3,42 @@
 var request = require('supertest');
 var UsersDAO = require('../../users').UsersDAO;
 
+var agent = request.agent(app);
+		
 describe('Article Routes', function() {
 	
-	// describe('/articles - POST (create new article)', function() {
-		
-	// 	beforeEach(function(done) {
-	// 		// Need to figure out how to properly get a session rolling
-	// 		// with a session cookie
-	// 	});
-		
-	// 	it('should create a new article', function(done) {
-	// 		var body = { 'title': 'Learning Node.js',
-	// 				  'language': 'Javascript' }
+	before(function(done) {
+		var body = { 'email': 'articles@xmcgraw.com',
+				  'password': 'jimbo2222',
+			    	'verify': 'jimbo2222',
+				      'name': 'Article McGraw',
+				  'username': 'article' }
+			
+		agent
+		.post('/accounts')
+		.send(body)
+		.expect(201, function(err, res) {
+			if (err) return done(err);
+			done();
+		});
+	});
+	
+	describe('/articles - POST (create new article)', function() {
 				
-	// 		request(app)
-	// 		.post('/articles')
-	// 		.send(body)
-	// 		.expect(201, function(err, res) {
-	// 			if (err) return done(err);
+		it('should create a new article', function(done) {
+			var body = { 'title': 'Learning Node.js',
+					  'language': 'Javascript' }
 				
-	// 			console.log(res.body);
-				
-	// 			// expect(res.body.message).to.equal('Session started');
-	// 			done();
-	// 		});	
-	// 	});
-	// });
+			agent
+			.post('/articles')
+			.send(body)
+			.expect(201, function(err, res) {
+				if (err) return done(err);
+				expect(res.body.status).to.equal('ok');
+				done();
+			});	
+		});
+	});
 	
 });
 

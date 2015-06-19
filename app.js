@@ -55,6 +55,7 @@ mongoose.connection.on('connected', function(ref) {
 	// Start express server
 	app.listen(8080, function() {
 		console.log('Express server listening on port 8080');
+		connection_callback()
 	});	
 });
 
@@ -78,23 +79,35 @@ var gracefulExit = function() {
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
-// Attempt connection
-try {
-	var options = {
-		db: { native_parser: true },
-		server: { poolSize: 5 },
-		replset: { },
-		user: '',
-		pass: ''
-	};
+// The test environment will need to manage the connection from the before hook
+var connection_callback;
+function openDatabaseConnection(callback) {
+	connection_callback = callback;
 	
-	// Prevent the connection from dying prematurely
-	options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
-	
-	mongoose.connect(config.db_path[app.settings.env], options);
-	console.log('Trying to connect to DB ' + db_server);
-} catch (err) {
-	console.log('Server initialization failed ', err.message);
+	// Attempt connection
+	try {
+		var options = {
+			db: { native_parser: true },
+			server: { poolSize: 5 },
+			replset: { },
+			user: '',
+			pass: ''
+		};
+		
+		// Prevent the connection from dying prematurely
+		options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
+		
+		mongoose.connect(config.db_path[app.settings.env], options);
+		console.log('Trying to connect to DB ' + db_server);
+	} catch (err) {
+		console.log('Server initialization failed ', err.message);
+	}	
 }
 
-module.exports = app
+// If we're not in a test env, fire up the server connection
+if (db_server != app.settings.env) {
+	openDatabaseConnection(function() { });
+}
+
+module.exports = app;
+module.exports.openDatabaseConnection = openDatabaseConnection;

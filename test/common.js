@@ -14,9 +14,6 @@ var SectionModel = require('../models/sections').Section;
 
 var mongoose = require('mongoose');
 
-// Access our express app
-global.app = require('../app');
-
 // Contains database model schemas
 global.db = {
 	User: mongoose.connection.model('User', UserModel, 'users'),

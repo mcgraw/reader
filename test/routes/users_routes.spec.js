@@ -2,6 +2,8 @@
 
 var request = require('supertest');
 
+var agent = request.agent(app);
+
 describe('Account Routes', function() {
 	
 	describe('/accounts - POST (create new account)', function() {
@@ -13,7 +15,7 @@ describe('Account Routes', function() {
 					      'name': 'Reader McGraw',
 					  'username': 'reader' }
 				
-			request(app)
+			agent
 			.post('/accounts')
 			.send(body)
 			.expect(201, function(err, res) {
