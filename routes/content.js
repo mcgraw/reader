@@ -8,6 +8,15 @@ function ContentHandler(connection) {
 	
 	var sessions = new SessionsDAO();
 	var articles = new ArticleDAO();
+
+	this.displayMainPage = function(req, res, next) {
+		"use strict";
+		return res.json({"status": "OK"});
+	}
+	
+	// ============================================================
+	// Articles
+	// ============================================================
 	
 	this.handleArticleCreation = function(req, res, next) {
 		"use strict";
@@ -37,7 +46,7 @@ function ContentHandler(connection) {
 					});				
 				} else {
 					res.statusCode = 500;
-					return res.json({"message": err});
+					res.json({"message": err.message});
 				}
 			});
 		});		
@@ -55,15 +64,92 @@ function ContentHandler(connection) {
 				res.json(article);
 			} else {
 				res.statusCode = 500;
-				return res.json({"message": err});
+				res.json({"message": err.message});
 			}
 		});		
 	}
 	
-	this.displayMainPage = function(req, res, next) {
+	// ============================================================
+	// Sections
+	// ============================================================
+	
+	this.handleSectionCreation = function(req, res, next) {
 		"use strict";
-		return res.json({"status": "OK"});
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		articles.createSection(req.db, req.params.id, req.body.title, function(err, section) {
+			"use strict";
+			
+			if (section) {
+				res.json(section);
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});		
 	}
+	
+	this.displaySection = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		articles.findSection(req.db, req.params.section_id, function(err, section) {
+			"use strict";
+			
+			if (section) {
+				res.json(section);
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});		
+	}
+	
+	this.handleSectionUpdate = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		articles.updateSection(req.db, req.params.section_id, req.body, function(err, section) {
+			"use strict";
+			
+			if (section) {
+				res.json(section);
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});
+	}
+	
+	this.handleSectionDelete = function(req, res, next) {
+		"use strict";
+		
+		if (!req.session_id) throw Error("You need to log in to do that");
+		
+		var article_id = req.params.article_id;
+		var section_id = req.params.section_id;
+		
+		articles.deleteSection(req.db, article_id, section_id, function(err) {
+			"use strict";
+			
+			if (!err) {
+				res.json({"message": "removed"});
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});
+		
+	}
+		
+	
+	// ============================================================
+	// Blocks
+	// ============================================================
+	
 }
 
 module.exports = ContentHandler;

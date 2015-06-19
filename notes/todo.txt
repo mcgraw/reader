@@ -26,7 +26,7 @@ API
 	- publish article (must have 1 published section)
 	
 * Section handling
-	- create a new section (title)
+	x create a new section (title)
 	- update section (title, description)
 	- publish section
 	

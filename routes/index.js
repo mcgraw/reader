@@ -57,7 +57,19 @@ module.exports = exports = function(app, schemaMiddleware) {
     // Sections
     // ============================================================
     
+    // Create a new section
+    app.post('/articles/:id/sections', contentHandler.handleSectionCreation);
     
+    // Retrieve section
+    app.get('/articles/:article_id/sections/:section_id', contentHandler.displaySection);    
+     
+    // Update section
+    app.put('/articles/:article_id/sections/:section_id', contentHandler.handleSectionUpdate);    
+    
+    // Delete section from the article
+    app.delete('/articles/:article_id/sections/:section_id', contentHandler.handleSectionDelete);    
+    
+     
     // Blocks
     // ============================================================
     

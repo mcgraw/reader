@@ -16,22 +16,16 @@ var LayoutType = {
 };
 
 var Section = new Schema( {
-	index: {
-		type: Number,
-		required: true
-	},
 	locked: {
 		type: Boolean,
 		default: true
 	},
-	
 	title: {
 		type: String,
 		required: true
 	},
 	description: {
-		type: String,
-		required: true
+		type: String
 	},
 	rating: {
 		type: Number,
