@@ -26,51 +26,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup the connection to the database
-var db_server = app.settings.env;
-
-mongoose.connection.on('connected', function(ref) {
-	console.log("Connected to " + db_server + " DB!");
+var options = {
+	db: { native_parser: true },
+	server: { poolSize: 5 },
+	replset: { },
+	user: '',
+	pass: ''
+};
+options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
 	
-	// Setup database middleware
-	var sessions = require('./models/sessions');
-	var users = require('./models/users');
-	var articles = require('./models/articles');
-	var sections = require('./models/sections');
-	var blocks = require('./models/blocks');
-	function schemaMiddleware(req, res, next) {
-		req.db = {
-			Session: mongoose.connection.model('Session', sessions.Session, 'sessions'),
-			User: mongoose.connection.model('User', users.User, 'users'),
-			Article: mongoose.connection.model('Article', articles.Article, 'articles'),
-			Section: mongoose.connection.model('Section', sections.Section, 'sections'),
-			Session: mongoose.connection.model('Session', sessions.Session, 'sessions'),
-			Block: mongoose.connection.model('Block', blocks.Block, 'blocks')
-		};
-		return next();
-	}
-	
-	// Application routes
-	routes(app, schemaMiddleware);
-	
-	// Start express server
-	app.listen(8080, function() {
-		console.log('Express server listening on port 8080');
-		connection_callback()
-	});	
-});
+var db_server  = app.settings.env;
+var db_path    = config.db_path[app.settings.env]
+var connection = mongoose.createConnection(db_path);
 
 // Connection throws an error
-mongoose.connection.on('error', function(err) {
+connection.on('error', function(err) {
 	console.error('Failed to connect to DB ' + db_server + ' on startup', err);
 });
 
 // Connection is disconnected
-mongoose.connection.on('disconnected', function(err) {
+connection.on('disconnected', function(err) {
 	console.error('Mongoose default connection to DB ' + db_server + ' disconnected', err);
 });
 
 var gracefulExit = function() {
-	mongoose.connection.close(function() {
+	connection.close(function() {
 		console.log('Mongoose default connection with DB ' + db_server + ' is disconnected');
 		process.exit(0);
 	});
@@ -84,30 +64,47 @@ var connection_callback;
 function openDatabaseConnection(callback) {
 	connection_callback = callback;
 	
-	// Attempt connection
-	try {
-		var options = {
-			db: { native_parser: true },
-			server: { poolSize: 5 },
-			replset: { },
-			user: '',
-			pass: ''
-		};
+	console.log("Trying to connect to the " + db_server + " DB!");
+	
+	// Establish the connection with the object we created at launch
+	connection.once('open', function(ref) {
+		console.log("Connected to " + db_server + " DB!");
 		
-		// Prevent the connection from dying prematurely
-		options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
+		// Setup database middleware
+		var sessions = require('./models/sessions');
+		var users = require('./models/users');
+		var articles = require('./models/articles');
+		var sections = require('./models/sections');
+		var blocks = require('./models/blocks');		
+		function schemaMiddleware(req, res, next) {
+			req.db = {
+				Session: connection.model('Session', sessions.Session, 'sessions'),
+				User: connection.model('User', users.User, 'users'),
+				Article: connection.model('Article', articles.Article, 'articles'),
+				Section: connection.model('Section', sections.Section, 'sections'),
+				Session: connection.model('Session', sessions.Session, 'sessions'),
+				Block: connection.model('Block', blocks.Block, 'blocks')
+			};
+			return next();
+		}
 		
-		mongoose.connect(config.db_path[app.settings.env], options);
-		console.log('Trying to connect to DB ' + db_server);
-	} catch (err) {
-		console.log('Server initialization failed ', err.message);
-	}	
+		// Application routes
+		routes(app, schemaMiddleware);
+		
+		// Start express server (move this to env)
+		var port = (db_server === 'test') ? 8000 : 8080;
+		app.listen(port, function() {
+			console.log('Express server listening on port 8080');
+			connection_callback()
+		});	
+	});
 }
 
 // If we're not in a test env, fire up the server connection
-if (db_server != app.settings.env) {
+if (app.settings.env != 'test') {
 	openDatabaseConnection(function() { });
 }
 
 module.exports = app;
+module.exports.connection = connection;
 module.exports.openDatabaseConnection = openDatabaseConnection;

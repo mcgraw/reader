@@ -4,7 +4,17 @@ var SessionsDAO = require('../../sessions').SessionsDAO;
 var UsersDAO = require('../../users').UsersDAO;
 var ArticlesDAO = require('../../articles').ArticleDAO;
 
+var sessions = require('../../models/sessions');
+var users = require('../../models/users');
+
+var connection = require('../../app').connection;
+
 describe('Users', function() {
+	
+	var db = {
+		Session: connection.model('Session', sessions.Session, 'sessions'),
+		User: connection.model('User', users.User, 'users')
+	}
 	
 	describe('Creating a new user', function() {
 		

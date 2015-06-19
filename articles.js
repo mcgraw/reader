@@ -124,20 +124,12 @@ function ArticleDAO() {
 	this.deleteSection = function(db, article_id, section_id, callback) {
 		"use strict";
 		
-		db.Section.findOne({'_id': section_id}, function(err, section) {
+		db.Section.findOneAndRemove({'_id': section_id}, function(err) {
 			"use strict";
 			
 			if (err) return callback(err);
 			
-			if (!section) return callback(new Error("Couldn't find section"));
-			
-			section.remove(function(err) {
-				"use strict";
-				
-				if (err) return callback(err);
-				
-				return removeSectionIdFromArticle(db, article_id, section_id, callback);
-			});		
+			return removeSectionIdFromArticle(db, article_id, section_id, callback);
 		});
 	}
 	
