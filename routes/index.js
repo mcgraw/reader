@@ -20,6 +20,11 @@ module.exports = exports = function(app, schemaMiddleware) {
     // The main page of the reader
     app.get('/', contentHandler.displayMainPage);
     
+    // Test
+    app.get('/test', function(req, res, name) {
+        res.json({"message": "ok"});       
+    });
+     
     // Login
     app.post('/login', sessionHandler.handleBeginSession);
   
