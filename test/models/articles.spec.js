@@ -24,26 +24,30 @@ describe('Articles', function() {
 	
 	describe('Updating an article', function() {
 		
-		it('should update article title', function(done) {
+		var active_article;
+		beforeEach(function(done) {
 			articles.createArticle(db, user, "Learning Swift", "swift", function(err, article) {
-				var body = { 'title': 'Learning Swift 2.0' };
-				articles.updateArticleWithId(db, article.id, body, function(err, article) {
-					expect(article).to.exist;
-					expect(article.title).to.be.equal("Learning Swift 2.0");
-					expect(article.language).to.be.equal("swift");
-					done();
-				});
+				active_article = article;
+				done();
+			});		
+		});
+		
+		it('should update article title', function(done) {
+			var body = { 'title': 'Learning Swift 2.0' };
+			articles.updateArticleWithId(db, active_article.id, body, function(err, article) {
+				expect(article).to.exist;
+				expect(article.title).to.be.equal("Learning Swift 2.0");
+				expect(article.language).to.be.equal("swift");
+				done();
 			});
 		});
 		
 		it('should update article language', function(done) {
-			articles.createArticle(db, user, "Learning Swift", "swift", function(err, article) {
-				var body = {'title': 'Learning Swift 2.0', 'language': 'Swifty'};
-				articles.updateArticleWithId(db, article.id, body, function(err, article) {
-					expect(article).to.exist;
-					expect(article.language).to.be.equal("swifty");
-					done();
-				});
+			var body = {'title': 'Learning Swift 2.0', 'language': 'Swifty'};
+			articles.updateArticleWithId(db, active_article.id, body, function(err, article) {
+				expect(article).to.exist;
+				expect(article.language).to.be.equal("swifty");
+				done();
 			});
 		});
 		

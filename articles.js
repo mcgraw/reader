@@ -43,6 +43,20 @@ function ArticleDAO() {
 		});
 	}
 	
+	this.findArticle = function(db, id, callback) {
+		"use strict";
+		
+		db.Article.findOne({'_id': id}, function(err, article) {
+			"use strict";
+									
+			if (err) return callback(err, null);
+			
+			if (!article) return callback(new Error("Couldn't find article"), null);
+																	
+			return callback(null, article);
+		});
+	}
+	
 	// =========
 	// Section
 	// ========= 
