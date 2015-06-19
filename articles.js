@@ -27,27 +27,19 @@ function ArticleDAO() {
 		
 	this.updateArticleWithId = function(db, id, body, callback) {
 		"use strict";
-				
-		db.Article.findOne({'_id': id}, function(err, article) {
+		
+		if (body.language) {
+			body.language = body.language.toLowerCase();
+		}
+		
+		db.Article.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, article) {
 			"use strict";
 						
-			if (err) return callback(err, null);
-			
-			if (!article) return callback(new Error("Couldn't find article"), null);
-								
-			if (body.language) {
-				body.language = body.language.toLowerCase();
+			if (article) {
+				return callback(null, article);
+			} else {
+				return callback(err, null);
 			}
-									
-			article.update(body, function(err, doc) {
-				"use strict";
-				
-				if (doc) {
-					return callback(null, doc);
-				} else {
-					return callback(err, null);
-				}
-			});
 		});
 	}
 	
@@ -90,24 +82,15 @@ function ArticleDAO() {
 	this.updateSection = function(db, id, body, callback) {
 		"use strict";
 		
-		db.Section.findOne({'_id': id}, function(err, section) {
+		db.Section.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, section) {
 			"use strict";
 						
-			if (err) return callback(err, null);
-			
-			if (!section) return callback(new Error("Couldn't find section"), null);
-																	
-			section.update(body, function(err, doc) {
-				"use strict";
-								
-				if (doc) {
-					return callback(null, doc);
-				} else {
-					return callback(err, null);
-				}
-			});
-		});
-		
+			if (section) {
+				return callback(null, section);
+			} else {
+				return callback(err, null);
+			}
+		});	
 	}
 	
 	this.findSection = function(db, id, callback) {
@@ -115,7 +98,7 @@ function ArticleDAO() {
 		
 		db.Section.findOne({'_id': id}, function(err, section) {
 			"use strict";
-						
+									
 			if (err) return callback(err, null);
 			
 			if (!section) return callback(new Error("Couldn't find section"), null);
