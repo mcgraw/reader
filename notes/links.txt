@@ -1,7 +1,9 @@
 Workflow 
 http://yeoman.io/learning/
 
+Using GULP
 http://mindthecode.com/lets-build-an-angularjs-app-with-browserify-and-gulp
+http://www.sitepoint.com/introduction-gulp-js/
 
 Testing
 - https://www.joyent.com/blog/risingstack-writing-testable-apis-the-basics
@@ -26,3 +28,6 @@ http://mongoosejs.com/docs/2.7.x/docs/embedded-documents.html
 
 Sending email
 http://blog.nodejitsu.com/sending-emails-in-node/
+
+
+Angular
