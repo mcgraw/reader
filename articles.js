@@ -1,84 +1,67 @@
 // Required modules
-var mongoose = require('mongoose');
-
 var BlockModel = require('./models/blocks');
 
 // DAO
 function ArticleDAO() {
-	"use strict";
+	'use strict';
 				
 	this.createArticle = function(db, author, title, language, callback) {
-		"use strict";
 			
-		var article = db.Article({"author": {"_id": author._id, "photo_url": author.photo_url },
-							       "title": title, 
-							    "language": language.toLowerCase()});
+		var article = db.Article({'author': {'_id': author._id, 'photo_url': author.photo_url },
+							       'title': title, 
+							    'language': language.toLowerCase()});
 		article.save(function(err, doc) {
-			"use strict";
-	
 			if (doc) {					
 				return callback(null, doc);
 			} else {
 				return callback(err, null);
 			}
 		});
-
-	}	
+	};
 		
 	this.updateArticleWithId = function(db, id, body, callback) {
-		"use strict";
 		
 		if (body.language) {
 			body.language = body.language.toLowerCase();
 		}
 		
-		db.Article.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, article) {
-			"use strict";
-						
+		db.Article.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, article) {	
 			if (article) {
 				return callback(null, article);
 			} else {
 				return callback(err, null);
 			}
 		});
-	}
+	};
 	
 	this.findArticle = function(db, id, callback) {
-		"use strict";
 		
-		db.Article.findOne({'_id': id}, function(err, article) {
-			"use strict";
-									
-			if (err) return callback(err, null);
+		db.Article.findOne({'_id': id}, function(err, article) {				
+			if (err) { return callback(err, null); }
 			
-			if (!article) return callback(new Error("Couldn't find article"), null);
+			if (!article) { return callback(new Error('Couldn\'t find article'), null); }
 																	
 			return callback(null, article);
 		});
-	}
+	};
 	
 	// =========
 	// Section
 	// ========= 
 		
 	this.createSection = function(db, id, title, callback) {
-		"use strict";
 		
 		db.Article.findOne({'_id': id}, function(err, article) {
-			"use strict";
-						
-			if (err) return callback(err, null);
+			if (err) { return callback(err, null); }
 			
-			if (!article) return callback(new Error("Couldn't find article"), null);
+			if (!article) { return callback(new Error('Couldn\'t find article'), null); }
 				
-			var section = db.Section({"title": title});
+			var section = db.Section({'title': title});
 			section.save(function(err, doc) {
-				"use strict";
 				
 				if (doc) {
 					article.sections.push(doc.id);
 					article.save(function(err, article) {
-						"use strict";
 						
 						if (article) {
 							return callback(null, doc);
@@ -91,63 +74,49 @@ function ArticleDAO() {
 				}
 			});
 		});
-	}
+	};
 	
 	this.updateSection = function(db, id, body, callback) {
-		"use strict";
 		
-		db.Section.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, section) {
-			"use strict";
-						
+		db.Section.findByIdAndUpdate({'_id': id}, body, { 'new': true }, function(err, section) {			
 			if (section) {
 				return callback(null, section);
 			} else {
 				return callback(err, null);
 			}
 		});	
-	}
+	};
 	
 	this.findSection = function(db, id, callback) {
-		"use strict";
-		
-		db.Section.findOne({'_id': id}, function(err, section) {
-			"use strict";
-									
-			if (err) return callback(err, null);
+	
+		db.Section.findOne({'_id': id}, function(err, section) {					
+			if (err) { return callback(err, null); }
 			
-			if (!section) return callback(new Error("Couldn't find section"), null);
+			if (!section) { return callback(new Error('Couldn\'t find section'), null); }
 																	
 			return callback(null, section);
 		});
-	}
+	};
 	
 	this.deleteSection = function(db, article_id, section_id, callback) {
-		"use strict";
-		
+
 		db.Section.findOneAndRemove({'_id': section_id}, function(err) {
-			"use strict";
-			
-			if (err) return callback(err);
+			if (err) { return callback(err); }
 			
 			return removeSectionIdFromArticle(db, article_id, section_id, callback);
 		});
-	}
+	};
 	
 	function removeSectionIdFromArticle(db, article_id, section_id, callback) {
-		"use strict";
-		
+
 		db.Article.findOne({'_id': article_id}, function(err, article) {
-			"use strict";
+			if (err) { return callback(err); }
 			
-			if (err) return callback(err);
-			
-			if (!article) return callback(new Error("Couldn't find article"));
+			if (!article) { return callback(new Error('Couldn\'t find article')); }
 			
 			article.sections.pull({ '_id': section_id });
-			article.save(function(err, doc) {
-				"use strict";
-				
-				if (err) return callback(err);
+			article.save(function(err) {
+				if (err) { return callback(err); }
 				
 				return callback(null);				
 			});			
@@ -159,14 +128,11 @@ function ArticleDAO() {
 	//=========
 	
 	this.createBlock = function(db, section_id, body, callback) {
-		"use strict";
-		
+
 		db.Section.findOne({'_id': section_id}, function(err, section) {
-			"use strict";
+			if (err) { return callback(err); }
 			
-			if (err) return callback(err);
-			
-			if (!section) return callback(new Error("Couldn't find section"));
+			if (!section) { return callback(new Error('Couldn\'t find section')); }
 			
 			var block = db.Block({ 'tag': body.style_tag });
 			
@@ -200,15 +166,13 @@ function ArticleDAO() {
 				case BlockModel.Type.EMAIL:
 					break; // Nothing to customize here
 				default:
-					return callback(new Error("Unsupported style tag!"), null);
+					return callback(new Error('Unsupported style tag!'), null);
 			}
 			
-			if (!block) return callback(new Error("Failed to create block!"));
+			if (!block) { return callback(new Error('Failed to create block!')); }
 			
 			section.blocks.push(block);
 			section.save(function(err, doc) {
-				"use strict";
-				
 				if (err) {
 					return callback(err, null);
 				} else {
@@ -219,24 +183,18 @@ function ArticleDAO() {
 	};
 	
 	this.deleteBlock = function(db, section_id, block_id, callback) {
-		"use strict";
-		
-		console.log(block_id);
 		
 		db.Section.findOne({'_id': section_id}, function(err, section) {
-			"use strict";
+			if (err) { return callback(err); }
 			
-			if (err) return callback(err);
-			
-			if (!section) return callback(new Error("Couldn't find section"));
+			if (!section) { return callback(new Error('Couldn\'t find section')); }
 			
 			section.blocks.id(block_id).remove();
 			section.save(function(err) {
-				"use strict";
 				callback(err);
 			});			
 		});
-	}
+	};
 	
 	function populateContentBlock(block, header, body) {
 		block.header = header;
@@ -251,9 +209,9 @@ function ArticleDAO() {
 	}
 		
 	function populateQuestionBlock(block, answer_index, questions) {
-		var q = { 'answer': answer_index, 'items': [] }
+		var q = { 'answer': answer_index, 'items': [] };
 		
-		for (question in questions) {
+		for (var question in questions) {
 			q.items.push({ '_id': question.index, 'title': question.title });	
 		}	
 		block.questions.push(q);	
@@ -266,7 +224,7 @@ function ArticleDAO() {
 	}
 	
 	function populateWalkthroughBlock(block, steps) {
-		for (step in steps) {
+		for (var step in steps) {
 			block.steps.push({ 'title': step.title, 'media_url': step.media_url });
 		}
 		return block;
@@ -278,17 +236,10 @@ function ArticleDAO() {
 	}
 		
 	function populateTakeawayBlock(block, body) {
+		block.body = body;
 		return block;
 	}
-	
-	function populateReviewBlock(block, body) {
-		return block;
-	}
-	
-	function populateEmailBlock(block, body) {
-		return block;
-	}
-	
+		
 }
 
 module.exports.ArticleDAO = ArticleDAO;

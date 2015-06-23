@@ -3,10 +3,10 @@ var app          = express();                   // Framework to handle routing r
 var mongoose     = require('mongoose');      	// MongoDB modeling tool 
 
 var path         = require('path');         	// Utilities for handling and transforming file paths
-var logger       = require('winston');        	// HTTP request logger
+// var logger       = require('winston');        	// HTTP request logger
 var cookieParser = require('cookie-parser'); 	// Populates req.cookies with an object keyed
 var bodyParser   = require('body-parser');   	// https://www.npmjs.com/package/body-parser
-var favicon      = require('serve-favicon'); 	// Serves and caches a favicon
+// var favicon      = require('serve-favicon'); 	// Serves and caches a favicon
 
 var config       = require('./config');			// Shared configuration items
 var routes       = require('./routes');      	// Routes for our application   
@@ -36,25 +36,28 @@ var options = {
 options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
 	
 var db_server  = app.settings.env;
-var db_path    = config.db_path[app.settings.env]
+var db_path    = config.db_path[app.settings.env];
 var connection = mongoose.createConnection(db_path);
 
 // Connection throws an error
 connection.on('error', function(err) {
+	'use strict';
 	console.error('Failed to connect to DB ' + db_server + ' on startup', err);
 });
 
 // Connection is disconnected
 connection.on('disconnected', function(err) {
+	'use strict';
 	console.error('Mongoose default connection to DB ' + db_server + ' disconnected', err);
 });
 
 var gracefulExit = function() {
+	'use strict';
 	connection.close(function() {
 		console.log('Mongoose default connection with DB ' + db_server + ' is disconnected');
 		process.exit(0);
 	});
-}
+};
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
@@ -62,13 +65,14 @@ process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 // The test environment will need to manage the connection from the before hook
 var connection_callback;
 function openDatabaseConnection(callback) {
+	'use strict';
 	connection_callback = callback;
 	
-	console.log("Trying to connect to the " + db_server + " DB!");
+	console.log('Trying to connect to the ' + db_server + ' DB!');
 	
 	// Establish the connection with the object we created at launch
-	connection.once('open', function(ref) {
-		console.log("Connected to " + db_server + " DB!");
+	connection.once('open', function() {
+		console.log('Connected to ' + db_server + ' DB!');
 		
 		// Setup database middleware
 		var sessions = require('./models/sessions');
@@ -82,7 +86,6 @@ function openDatabaseConnection(callback) {
 				User: connection.model('User', users.User, 'users'),
 				Article: connection.model('Article', articles.Article, 'articles'),
 				Section: connection.model('Section', sections.Section, 'sections'),
-				Session: connection.model('Session', sessions.Session, 'sessions'),
 				Block: connection.model('Block', blocks.Block, 'blocks')
 			};
 			return next();
@@ -95,13 +98,13 @@ function openDatabaseConnection(callback) {
 		var port = (db_server === 'test') ? 8000 : 8080;
 		app.listen(port, function() {
 			console.log('Express server listening on port 8080');
-			connection_callback()
+			connection_callback();
 		});	
 	});
 }
 
 // If we're not in a test env, fire up the server connection
-if (app.settings.env != 'test') {
+if (app.settings.env !== 'test') {
 	openDatabaseConnection(function() { });
 }
 

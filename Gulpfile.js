@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp 		= require('gulp');				// Workhorse
 var gutil 		= require('gulp-util');			// Log colors (gutils.log)
 var jshint  	= require('gulp-jshint');		// Javascript code review
