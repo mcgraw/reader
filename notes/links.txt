@@ -1,3 +1,8 @@
+Workflow 
+http://yeoman.io/learning/
+
+http://mindthecode.com/lets-build-an-angularjs-app-with-browserify-and-gulp
+
 Testing
 - https://www.joyent.com/blog/risingstack-writing-testable-apis-the-basics
 - http://blog.modulus.io/getting-started-with-mongoose

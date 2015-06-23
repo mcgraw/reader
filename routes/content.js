@@ -11,7 +11,8 @@ function ContentHandler(connection) {
 
 	this.displayMainPage = function(req, res, next) {
 		"use strict";
-		return res.json({"status": "OK"});
+		return res.render('index', { title: 'Reader' });
+		return res.sendfile('./public/index.html');
 	}
 	
 	// ============================================================

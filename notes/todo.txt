@@ -59,3 +59,7 @@ Client/Frontend
 -------------------------
 
 Very basic client that let's you perform major tasks w/ minimal UI
+
+* home
+	- signup button
+	- login button

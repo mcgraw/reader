@@ -22,12 +22,25 @@
     "bcrypt-nodejs": "^0.0.3"
   },
   "devDependencies": {
+    "browserify": "^10.2.4",
     "chai": "^3.0.0",
+    "connect-livereload": "^0.5.3",
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-cache": "^0.2.10",
+    "gulp-concat": "^2.5.2",
+    "gulp-embedlr": "^0.5.2",
+    "gulp-jshint": "^1.11.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-util": "^3.0.5",
     "hippie": "^0.3.0",
     "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
-    "supertest": "^1.0.1"
+    "supertest": "^1.0.1",
+    "tiny-lr": "^0.1.6"
   },
   "private": true
 }
