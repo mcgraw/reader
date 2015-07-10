@@ -1,12 +1,12 @@
 {
   "name": "reader",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "David McGraw <david@xmcgraw.com>",
   "description": "First node project -- Tutorial Reader",
   "main": "app.js",
   "scripts": {
     "start": "gulp serve",
-    "test": "nodemon ./node_modules/mocha/bin/mocha ./test --recursive",
+    "test": "nodemon ./node_modules/mocha/bin/mocha ./app/tests --recursive",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
   "dependencies": {

@@ -92,8 +92,8 @@ gulp.task('nodemon', function(cb) {
 	var called = false;
 	
 	nodemon({
-		script: 'app.js',
-		watch: ['app.js']
+		script: 'server.js',
+		watch: ['server.js']
 	})
 	.on('start', function onStart() {
 		if (!called) { cb(); }
