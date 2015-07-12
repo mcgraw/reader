@@ -12,7 +12,6 @@ var config       = require('./config');			// Shared configuration items
 var routes       = require('./app/routes');  // Routes for our application   
 
 // Register templating engine
-app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'views'));
 
 // Express middleware to populate 'req.cookies' so we can access cookies
@@ -36,7 +35,8 @@ var options = {
 options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
 	
 var db_server  = app.settings.env;
-var db_path    = config.db_path[app.settings.env];
+var db_path    = config.db_path[db_server];
+var db_port    = config.db_port[db_server];
 var connection = mongoose.createConnection(db_path);
 
 // Connection throws an error
@@ -92,11 +92,10 @@ function openDatabaseConnection(callback) {
 		}
 		
 		// Application routes
-		routes(app, schemaMiddleware);
+		routes(app, express, schemaMiddleware);
 		
 		// Start express server (move this to env)
-		var port = (db_server === 'test') ? 8000 : 8080;
-		app.listen(port, function() {
+		app.listen(db_port, function() {
 			console.log('Express server listening on port 8080');
 			connection_callback();
 		});	
@@ -104,7 +103,7 @@ function openDatabaseConnection(callback) {
 }
 
 // If we're not in a test env, fire up the server connection
-if (app.settings.env !== 'test') {
+if (db_server !== 'test') {
 	openDatabaseConnection(function() { });
 }
 

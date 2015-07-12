@@ -8,9 +8,12 @@
 	<base href="/">
 	
 	<!-- CSS -->
+	<link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
 	
 	<!-- JS -->
 	<script src="assets/libs/angular/angular.js"></script>
+	<script src="assets/libs/angular-cookie/angular-cookie.js"></script>
+	<script src="assets/libs/ng-token-auth/dist/ng-token-auth.js"></script>
 	
 	<!-- Controllers -->
 	
@@ -20,12 +23,26 @@
 	<script src="app.js"></script>
 	<script src="app.routes.js"></script>
 </head>
-<body>
-	HELLO
-	<!--<div ng-controller="World">
-		<input ng-model="text"/>
-		<p>Hello there {{ text }}</p>
-	</div>-->
+<body ng-app="readerApp" ng-controller="readerCtrl as reader">
+	
+	<!-- NAVBAR -->
+	<header>
+		<div class="navbar">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="/" class="navbar-brand">Reader</a>
+				</div>
+				<div class="nav navbar-nav navbar-right">
+					<li><a href="/login">Login</a></li>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<!-- MAIN -->
+	<main class="container">
+		<div ng-view></div>
+	</main>
 </body>
 
 	<!--<script type="text/javascript" src="/js/bundle.js"/>-->
