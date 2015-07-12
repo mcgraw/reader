@@ -1,7 +1,7 @@
 .DS_Store
 
 # Local Database
-data/db
+app/data/db
 
 # Logs
 logs
@@ -30,3 +30,6 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+
+# Bower dependency directory
+public/assets/libs
