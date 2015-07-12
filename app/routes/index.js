@@ -11,10 +11,23 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     var userHandler    = new UserHandler();
     var contentHandler = new ContentHandler();
     
+    // Allow requests to come from different domains in order to develop 
+    // a client-independent system. If you do not allow this, you will 
+    // trigger a CORS (Cross Origin Request Sharing) error in the web browser.
+    app.use(function(req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+        next();
+    });
+    
     var apiRouter      = express.Router();
     
     // Middleware to access database schemas
     apiRouter.use(schemaMiddleware);
+    
+    // Login
+    apiRouter.post('/login', sessionHandler.handleBeginSession);
     
     // Middleware to see if a user is logged in
     apiRouter.use(sessionHandler.isLoggedInMiddleware);
@@ -27,11 +40,8 @@ module.exports = exports = function(app, express, schemaMiddleware) {
         res.json({"message": "ok"});       
     });
      
-    // Login
-    apiRouter.post('/login', sessionHandler.handleBeginSession);
-  
     // Logout
-    apiRouter.get('/logout', sessionHandler.handleEndSession);
+    // apiRouter.get('/logout', sessionHandler.handleEndSession);
     
     
     // Profile

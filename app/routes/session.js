@@ -1,5 +1,8 @@
 var UsersDAO = require('../controllers/users').UsersDAO
-  , SessionsDAO = require('../controllers/sessions').SessionsDAO;
+var SessionsDAO = require('../controllers/sessions').SessionsDAO;
+
+var config	= require('../../config');
+var jwt		= require('jsonwebtoken');
 
 function SessionHandler () {
     "use strict";
@@ -8,16 +11,25 @@ function SessionHandler () {
     var sessions = new SessionsDAO();
    
     this.isLoggedInMiddleware = function(req, res, next) {
-        var session_id = req.cookies.session;
-        sessions.getSessionUserObjectId(req.db, session_id, function(err, session) {
-            "use strict";
-            
-            if (!err && session_id) {
-                req.session_id = session_id;
-            } 
-            
-            return next();
-        });  
+        
+        // Check header, url, or post param for a token
+        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        
+        // Decode it
+        if (token) {
+            // verify secret, check expiration
+            jwt.verify(token, config.secret, function(err, decoded) {
+                if (err) {
+                    return res.status(403).send({ message: 'Failed to authenticate token.' });
+                } else {
+                    req.decoded = decoded;
+                    next();
+                }
+            });
+        } else {
+            // no token, return forbidden
+            return res.status(403).send({ message: 'No token provided.' })
+        }  
     }
     
     this.handleSignup = function(req, res, next) {
@@ -36,16 +48,11 @@ function SessionHandler () {
                 "use strict";
 
                 if (err) {
-                    console.log("Error: " + err.code);
                     // this was a duplicate
                     if (err.code == '11000') {
-                        // errors['username_error'] = "Username already in use. Please choose another";
-                        // return res.render("signup", errors);
-                        return res.json({"error": { "code": 500, "message": "Username already in use. Please choose another"}});   
-                    }
-                    // this was a different error
-                    else {
-                        return next(err);
+                        return res.status(403).send({ message: "Username already in use. Please choose another"});   
+                    } else {
+                        return res.send(err);
                     }
                 }
 
@@ -54,9 +61,7 @@ function SessionHandler () {
             });
         }
         else {
-            console.log("user did not validate");
-            // return res.render("signup", errors);
-             return res.json({"error": { "code": 500, "message": "Failed to validate"}}); 
+            return res.status(500).send({message: "Failed to validate"}); 
         }
     }
     
@@ -66,43 +71,15 @@ function SessionHandler () {
         var email = req.body.email;
         var password = req.body.password;
         
-        users.validateLogin(req.db, password, email, function(err, user) {
+        sessions.authenticateSession(req.db, password, email, function(err, data) {
             "use strict";
             
-            if (user) {
-                startSession(req, res, next, user['email']);
-            } else {
-                return res.json({"error": { "code": 500, "message": err}});   
-            }
+            if (err)  {return res.status(500).send({ message: err }); }
+            
+            res.send(data);
         });       
     }
-    
-    this.handleEndSession = function(req, res, next) {
-        "use strict";
-        
-        var session_id = req.cookies.session;
-        console.log(session_id);
-        
-        sessions.endSession(req.db, session_id, function(err) {
-            "use strict";
-            
-            res.cookie('session', '');
-            return res.json({"message": "session ended"});
-        });
-    }
-    
-    function startSession(req, res, next, email) {
-        sessions.startSession(req.db, email, function(err, session_id) {
-            "use strict";
-
-            if (err) return next(err);
-
-            res.cookie('session', session_id); 
-            // return res.redirect('/welcome');
-            return res.json({"message": "Session started"}); 
-        });
-    }
-            
+             
     function validateSignup(password, verify, email, errors) {
         "use strict";
         var PASS_RE = /^.{3,20}$/;

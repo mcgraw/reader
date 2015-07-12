@@ -1,4 +1,5 @@
 module.exports = {
+	root_path: __dirname,
 	secret: 'sodysseyodysseywherearethouodysseys',
 	db_port: {
 		production: process.env.PORT || 8080,

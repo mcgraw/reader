@@ -2,6 +2,8 @@
 var ArticleDAO = require('../controllers/articles').ArticleDAO;
 var SessionsDAO = require('../controllers/sessions').SessionsDAO;
 
+var config = require('../../config');
+
 // ContentHandler must be constructed with a connected database
 function ContentHandler(connection) {
 	"use strict";
@@ -11,7 +13,7 @@ function ContentHandler(connection) {
 
 	this.displayMainPage = function(req, res, next) {
 		"use strict";
-		return res.sendFile('./public/index.html');
+		return res.sendFile(config.root_path + '/public/index.html');
 	}
 	
 	// ============================================================
