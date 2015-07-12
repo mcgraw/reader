@@ -16,7 +16,7 @@ describe('Account Routes', function() {
 					  'username': 'reader' }
 				
 			agent
-			.post('/accounts')
+			.post('/api/accounts')
 			.send(body)
 			.expect(201, function(err, res) {
 				if (err) return done(err);

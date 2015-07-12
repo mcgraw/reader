@@ -15,7 +15,7 @@ describe('Article Routes', function() {
 				  'username': 'article' }
 			
 		agent
-		.post('/accounts')
+		.post('/api/accounts')
 		.send(body)
 		.expect(201, function(err, res) {
 			if (err) return done(err);
@@ -30,7 +30,7 @@ describe('Article Routes', function() {
 					  'language': 'Javascript' }
 				
 			agent
-			.post('/articles')
+			.post('/api/articles')
 			.send(body)
 			.expect(201, function(err, res) {
 				if (err) return done(err);
