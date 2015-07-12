@@ -3,7 +3,7 @@ var app          = express();                   // Framework to handle routing r
 var mongoose     = require('mongoose');      	// MongoDB modeling tool 
 
 var path         = require('path');         	// Utilities for handling and transforming file paths
-// var logger       = require('winston');        	// HTTP request logger
+var morgan       = require('morgan');        	// HTTP request logger
 var cookieParser = require('cookie-parser'); 	// Populates req.cookies with an object keyed
 var bodyParser   = require('body-parser');   	// https://www.npmjs.com/package/body-parser
 // var favicon      = require('serve-favicon'); 	// Serves and caches a favicon
@@ -23,6 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Expose public directory for thefront-end client
 app.use(express.static(path.join(__dirname, '/public')));
+
+// Log requests to console
+app.use(morgan('dev'));
 
 // Setup the connection to the database
 var options = {
