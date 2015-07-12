@@ -13,8 +13,8 @@ function SessionHandler () {
     this.isValidTokenMiddleware = function(req, res, next) {
         
         // Check header, url, or post param for a token
-        var token = req.body.token || req.query.token || req.headers['x-access-token'];
-        
+        var token = req.body.token || req.query.token || req.headers['access-token'];
+       
         // Decode it
         if (token) {
             // verify secret, check expiration
@@ -32,19 +32,45 @@ function SessionHandler () {
         }  
     }
     
+    this.handleValidateToken = function(req, res, next) {
+        
+        // Check header, url, or post param for a token
+        var token = req.body.token || req.query.token || req.headers['access-token'];
+      
+        // Decode it
+        if (token) {
+            // verify secret, check expiration
+            jwt.verify(token, config.secret, function(err, decoded) {
+                if (err) {
+                    return res.status(403).send({ message: 'Failed to authenticate token.' });
+                } else {
+                    return res.send({ data: { id: token }});
+                }
+            });
+        } else {
+            // no token, return forbidden
+            return res.status(403).send({ message: 'No token provided.' })
+        }  
+    }
+    
      this.handleBeginSession = function(req, res, next) {
         "use strict";
         
         var email = req.body.email;
         var password = req.body.password;
-        
-        sessions.authenticateSession(req.db, password, email, function(err, data) {
+		
+        sessions.authenticateSession(req.db, res, password, email, function(err, data) {
             "use strict";
             
             if (err)  {return res.status(500).send({ message: err }); }
             
             res.send(data);
         });       
+    }
+    
+    this.handleEndSession = function(req, res, next) {
+        "use strict";
+        res.send({message: "Session ended" });
     }
     
     this.handleSignup = function(req, res, next) {

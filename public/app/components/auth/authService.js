@@ -1,13 +1,15 @@
 angular.module('authService', ['ng-token-auth'])
 
 // See more information here
+// On auth http://code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543
 // https://github.com/lynndylanhurley/ng-token-auth
+// For examples http://ng-token-auth-demo.herokuapp.com/
 .config(function($authProvider) {
 	
 	$authProvider.configure( {
 		apiUrl:					'/api',
 		tokenValidationPath:    '/auth/validate_token',
-		emailSignInPath:		'/api/login'
+		emailSignInPath:		'/login'
 	});
 })
 
@@ -15,19 +17,24 @@ angular.module('authService', ['ng-token-auth'])
 	
 	// create auth factory object
 	var authFactory = {};
-	
-	// monitor the login state
-	$rootScope.isLoggedIn = false
 
 	// handle login
-	authFactory.login = function(email, password) {
-		$auth.submitLogin(email, password)
+	authFactory.login = function(email, password, callback) {
+		$auth.submitLogin({
+				email: email,
+				password: password
+			})
 			 .then(function(resp) {
-				 console.log("logged in!");
+				 callback(true, resp);
 			 })
 			 .catch(function(resp) {
-				 console.log("failed to login!");
+				 callback(false, resp);
 			 });
+	}
+	
+	// handle logout
+	authFactory.logout = function() {
+		$auth.signOut();	
 	}
 	
 	// check if a user is authorized

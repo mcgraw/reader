@@ -16,7 +16,7 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     // trigger a CORS (Cross Origin Request Sharing) error in the web browser.
     app.use(function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
         next();
     });
@@ -27,7 +27,7 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     apiRouter.use(schemaMiddleware);
     
     // Check for a valid token
-    apiRouter.post('/auth/validate_token', sessionHandler.isValidTokenMiddleware);
+    apiRouter.get('/auth/validate_token', sessionHandler.handleValidateToken);
     
     // Create a new user and begin a session
     apiRouter.post('/signup', sessionHandler.handleSignup);
@@ -45,10 +45,9 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     apiRouter.get('/test', function(req, res, name) {
         res.json({"message": "ok"});       
     });
-     
-    // Logout
-    // apiRouter.get('/logout', sessionHandler.handleEndSession);
     
+    // Logout
+    apiRouter.delete('/auth/sign_out', sessionHandler.handleEndSession);
     
     // Profile
     // ============================================================

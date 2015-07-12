@@ -9,9 +9,7 @@ angular.module('readerCtrl', ['authService'])
 	// check login status on every request
 	$rootScope.$on('$routeChangeStart', function() {
 		vm.loggedIn = Auth.isLoggedIn();
-		
-		console.log(vm.loggedIn);
-		
+	
 		// update user info on route change
 		// Auth.getUser()
 		// 	.success(function(data) {
@@ -19,13 +17,26 @@ angular.module('readerCtrl', ['authService'])
 		// 	});
 	});
 	
-	// check validation messages
+	// log out
+	vm.logout = function() {
+		Auth.logout()
+	};
+	
+	// authentication state changes
 	$rootScope.$on('auth:validation-success', function(event, args) {
 		console.log("User validation succeeded!");
+		vm.loggedIn = true;
 	});
 	
 	$rootScope.$on('auth:validation-error', function(event, args) {
 		console.log("User validation failed!");
+		vm.loggedIn = false;
 	});
 
+	$rootScope.$on('auth:logout-success', function(event, args) {
+		vm.loggedIn = false;
+	});
+	
+	$rootScope.$on('auth:logout-error', function(event, args) {
+	});	
 });

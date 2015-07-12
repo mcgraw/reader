@@ -12,10 +12,12 @@
 	
 	<!-- JS -->
 	<script src="assets/libs/angular/angular.js"></script>
+	<script src="assets/libs/angular-route/angular-route.js"></script>
 	<script src="assets/libs/angular-cookie/angular-cookie.js"></script>
 	<script src="assets/libs/ng-token-auth/dist/ng-token-auth.js"></script>
 	
 	<!-- Controllers -->
+	<script src="app/components/auth/authCtrl.js"></script>
 	<script src="app/components/reader/readerCtrl.js"></script>
 	
 	<!-- Services -->
@@ -36,6 +38,7 @@
 				</div>
 				<div class="nav navbar-nav navbar-right">
 					<li ng-if="!reader.loggedIn"><a href="/login">Login</a></li>
+					<li ng-if="reader.loggedIn"><button ng-click="reader.logout()" class="btn">Logout</button></li>
 				</div>
 			</div>
 		</div>
