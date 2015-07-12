@@ -32,6 +32,21 @@ function SessionHandler () {
         }  
     }
     
+     this.handleBeginSession = function(req, res, next) {
+        "use strict";
+        
+        var email = req.body.email;
+        var password = req.body.password;
+        
+        sessions.authenticateSession(req.db, password, email, function(err, data) {
+            "use strict";
+            
+            if (err)  {return res.status(500).send({ message: err }); }
+            
+            res.send(data);
+        });       
+    }
+    
     this.handleSignup = function(req, res, next) {
         "use strict";
 
@@ -55,31 +70,17 @@ function SessionHandler () {
                         return res.send(err);
                     }
                 }
-
-                res.statusCode = 201;
-                startSession(req, res, next, user['email']);
+                
+                sessions.authenticateSession(req.db, password, email, function(err, data) {
+                    res.status(201).send(data);
+                });  
             });
         }
         else {
             return res.status(500).send({message: "Failed to validate"}); 
         }
     }
-    
-    this.handleBeginSession = function(req, res, next) {
-        "use strict";
-        
-        var email = req.body.email;
-        var password = req.body.password;
-        
-        sessions.authenticateSession(req.db, password, email, function(err, data) {
-            "use strict";
-            
-            if (err)  {return res.status(500).send({ message: err }); }
-            
-            res.send(data);
-        });       
-    }
-             
+              
     function validateSignup(password, verify, email, errors) {
         "use strict";
         var PASS_RE = /^.{3,20}$/;

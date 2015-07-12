@@ -26,6 +26,9 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     // Middleware to access database schemas
     apiRouter.use(schemaMiddleware);
     
+    // Create a new user and begin a session
+    apiRouter.post('/signup', sessionHandler.handleSignup);
+    
     // Login
     apiRouter.post('/login', sessionHandler.handleBeginSession);
     
@@ -56,11 +59,9 @@ module.exports = exports = function(app, express, schemaMiddleware) {
              .post(userHandler.updateProfile);
        
         
-    // Accounts
+    // Accounts (logged in)
     // ============================================================
     
-    // Create a new user and begin a session
-    apiRouter.post('/accounts', sessionHandler.handleSignup);
     
 
     // Articles
