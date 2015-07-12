@@ -16,14 +16,16 @@
 	<script src="assets/libs/ng-token-auth/dist/ng-token-auth.js"></script>
 	
 	<!-- Controllers -->
+	<script src="app/components/reader/readerCtrl.js"></script>
 	
 	<!-- Services -->
+	<script src="app/components/auth/authService.js"></script>
 	
 	<!-- Main Angular app -->
-	<script src="app.js"></script>
 	<script src="app.routes.js"></script>
+	<script src="app.js"></script>
 </head>
-<body ng-app="readerApp" ng-controller="readerCtrl as reader">
+<body ng-app="readerApp" ng-controller="readerController as reader">
 	
 	<!-- NAVBAR -->
 	<header>
@@ -33,7 +35,7 @@
 					<a href="/" class="navbar-brand">Reader</a>
 				</div>
 				<div class="nav navbar-nav navbar-right">
-					<li><a href="/login">Login</a></li>
+					<li ng-if="!reader.loggedIn"><a href="/login">Login</a></li>
 				</div>
 			</div>
 		</div>

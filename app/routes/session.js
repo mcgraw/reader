@@ -10,7 +10,7 @@ function SessionHandler () {
     var users = new UsersDAO();
     var sessions = new SessionsDAO();
    
-    this.isLoggedInMiddleware = function(req, res, next) {
+    this.isValidTokenMiddleware = function(req, res, next) {
         
         // Check header, url, or post param for a token
         var token = req.body.token || req.query.token || req.headers['x-access-token'];

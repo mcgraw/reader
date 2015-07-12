@@ -26,14 +26,17 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     // Middleware to access database schemas
     apiRouter.use(schemaMiddleware);
     
+    // Check for a valid token
+    apiRouter.post('/auth/validate_token', sessionHandler.isValidTokenMiddleware);
+    
     // Create a new user and begin a session
     apiRouter.post('/signup', sessionHandler.handleSignup);
     
     // Login
     apiRouter.post('/login', sessionHandler.handleBeginSession);
-    
+   
     // Middleware to see if a user is logged in
-    apiRouter.use(sessionHandler.isLoggedInMiddleware);
+    apiRouter.use(sessionHandler.isValidTokenMiddleware);
     
     // The main page of the reader
     apiRouter.get('*', contentHandler.displayMainPage);
