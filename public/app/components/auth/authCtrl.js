@@ -20,7 +20,9 @@ angular.module('authCtrl', ['authService'])
 		Auth.login(vm.loginData.email, vm.loginData.password, function(success, resp) {
 			vm.processing = false;
 			
-			if (!success) {
+			if (success) {
+				$location.path('/profile/' + Auth.getUserId());
+			} else {
 				vm.error = resp.reason + ": " + resp.errors[0];
 			}
 		});
@@ -30,16 +32,5 @@ angular.module('authCtrl', ['authService'])
 	vm.doLogout = function() {
 		Auth.logout();
 	};
-	
-	// state changes	
-	$rootScope.$on('auth:logout-success', function(event, args) {
-		console.log("User has logged out!");
-		vm.processing = false;
-		$location.path('/');
-	});
-	
-	$rootScope.$on('auth:logout-error', function(event, args) {
-		console.log("User failed to log out!");
-	});
 	
 });

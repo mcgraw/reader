@@ -1,6 +1,6 @@
 angular.module('profileCtrl', ['profileService', 'authService'])
 
-.controller('profileController', function(Profile, Auth) {
+.controller('profileController', function($rootScope, $location, Profile, Auth) {
 	var vm = this;
 	
 	// user profile data
@@ -14,4 +14,8 @@ angular.module('profileCtrl', ['profileService', 'authService'])
 			   vm.user = data;
 		   })
 	
+	// monitor events
+	$rootScope.$on('auth:logout-success', function(event, args) {
+		$location.path('/');
+	});
 });
