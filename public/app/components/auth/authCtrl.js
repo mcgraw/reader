@@ -19,11 +19,8 @@ angular.module('authCtrl', ['authService'])
 		// call our API
 		Auth.login(vm.loginData.email, vm.loginData.password, function(success, resp) {
 			vm.processing = false;
-			console.log(resp);
 			
-			if (success) {
-				$location.path('/');
-			} else {
+			if (!success) {
 				vm.error = resp.reason + ": " + resp.errors[0];
 			}
 		});

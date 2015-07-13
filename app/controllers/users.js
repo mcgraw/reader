@@ -26,16 +26,16 @@ function UsersDAO() {
 		});	
 	};
 	
-	this.findUser = function(db, username, callback) {
-		
-		db.User.findOne({ 'username': username }, function(err, user) {
+	this.findUser = function(db, id, callback) {
+
+		db.User.findOne({ '_id': id }, function(err, user) {
 			
 			if (err) { return callback(err, null); }
 			
 			if (user) {
 				return callback(null, user);
 			} else {
-				return callback(new Error('No such user with username!'), null);
+				return callback(new Error('No such user with that id!'), null);
 			}
 		});
 	};

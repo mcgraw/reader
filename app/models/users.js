@@ -45,8 +45,7 @@ var User = new Schema( {
 		},
 		language: {
 			type: String
-		},
-		select: false
+		}
 	}],
 	purchased: [{
 		_id: {
@@ -58,8 +57,7 @@ var User = new Schema( {
 		},
 		language: {
 			type: String
-		},
-		select: false
+		}
 	}],
 	created: {
 		type: Date,

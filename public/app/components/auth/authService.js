@@ -41,6 +41,11 @@ angular.module('authService', ['ng-token-auth'])
 	authFactory.isLoggedIn = function() {
 		return $auth.userIsAuthenticated();
 	}
+	
+	// get auth username
+	authFactory.getUserId = function() {
+		return $auth.retrieveData('auth_headers')['uid'];
+	}
 
 	return authFactory;
 });

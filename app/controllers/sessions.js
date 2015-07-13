@@ -7,7 +7,7 @@ function SessionsDAO() {
 	
 	this.authenticateSession = function(db, res, password, email, callback) {
 		
-		db.User.findOne({ email: email }, 'name email password', function(err, user) {
+		db.User.findOne({ email: email }, 'name username password', function(err, user) {
 			if (err) { throw err; }
 			
 			if (!user) {
@@ -36,8 +36,11 @@ function SessionsDAO() {
 					
 					// return info including token
 					callback(null, {
-						id: user._id,
-						name: user.name
+						data: {
+							id: user._id,
+							name: user.name,
+							username: user.username
+						}
 					});
 				}
 			}

@@ -37,10 +37,7 @@ module.exports = exports = function(app, express, schemaMiddleware) {
    
     // Middleware to see if a user is logged in
     apiRouter.use(sessionHandler.isValidTokenMiddleware);
-    
-    // The main page of the reader
-    apiRouter.get('*', contentHandler.displayMainPage);
-    
+     
     // Test
     apiRouter.get('/test', function(req, res, name) {
         res.json({"message": "ok"});       
@@ -52,10 +49,10 @@ module.exports = exports = function(app, express, schemaMiddleware) {
     // Profile
     // ============================================================
     
-    apiRouter.route('/profile/:username')
+    apiRouter.route('/profile/:id')
   
              // Display a user profile
-             .get(userHandler.displayProfile)
+             .get(userHandler.getProfileData)
     
              // Update a user profile
              .post(userHandler.updateProfile);
@@ -105,6 +102,9 @@ module.exports = exports = function(app, express, schemaMiddleware) {
 
     // Error handling middleware
     apiRouter.use(ErrorHandler);  
+    
+    // The main page of the reader (the catch-all route, registered after all of our routes)
+    apiRouter.get('*', contentHandler.displayMainPage);
     
     // Base path
     app.use('/api', apiRouter);
