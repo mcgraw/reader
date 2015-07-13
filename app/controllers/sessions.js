@@ -19,6 +19,7 @@ function SessionsDAO() {
 				} else {
 					// create a token
 					var token = jwt.sign({
+						id: user._id,
 						name: user.name,
 						email: user.email
 					}, config.secret, {

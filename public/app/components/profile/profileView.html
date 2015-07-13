@@ -1,3 +1,60 @@
-<div class='jumbotron'>
-	<h4>Hello {{ profile.user.name }}</h4>
+<div class='page-header'>
+	<h1>Hello {{ profile.user.name }}</h1>
 </div>
+
+<div class='jumbotron' ng-if="profile.user.purchased">
+<row><h3>Purchased Articles</h3></row>
+<table class='table table-bordered table-striped' ng-show='profile.user.purchased'>
+	<thead>
+		<tr>
+			<th>Language</th>
+			<th>Title</th>
+			<th class='col-sm-2'></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat='article in profile.user.purchased'>
+			<td>{{ article.language }}</td>
+			<td>{{ article.title }}</td>
+			<td class='col-sm-2'></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+
+<row><h3>Authored Articles</h3></row>
+<table class='table table-bordered table-striped' ng-show='profile.user.authored'>
+	<thead>
+		<tr>
+			<th>Language</th>
+			<th>Title</th>
+			<th class='col-sm-3'></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat='article in profile.user.authored'>
+			<td>{{ article.language }}</td>
+			<td>{{ article.title }}</td>
+			<td class='col-sm-3'>
+				<a ng-href='/article/{{ article._id }}' class='btn btn-primary'>Edit</a>
+				<a href="#" ng-click="article.purchaseArticle(article._id)" class='btn btn-success'>Buy</a>
+				<a href='#' ng-click='article.deleteArticle(article._id)' class='btn btn-danger'>Delete</a>
+			</td>
+	</tbody>
+</table>
+
+<row><a ng-href='/article' class='btn btn-warning'>Create New Article</a></row>
+
+<!--
+	
+	Hello David
+	
+	> list of purchased articles
+	
+	> list of authored articles
+	
+	- create new article
+		
+-->
+	
