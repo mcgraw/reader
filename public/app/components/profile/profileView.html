@@ -38,8 +38,8 @@
 			<td>{{ article.title }}</td>
 			<td class='col-sm-3'>
 				<a ng-href='/article/{{ article._id }}' class='btn btn-primary'>Edit</a>
-				<a href="#" ng-click="article.purchaseArticle(article._id)" class='btn btn-success'>Buy</a>
-				<a href='#' ng-click='article.deleteArticle(article._id)' class='btn btn-danger'>Delete</a>
+				<a href="#" ng-click="profile.purchaseArticle(article._id)" class='btn btn-success'>Buy</a>
+				<a href='#' ng-click='profile.deleteArticle(article._id)' class='btn btn-danger'>Delete</a>
 			</td>
 	</tbody>
 </table>

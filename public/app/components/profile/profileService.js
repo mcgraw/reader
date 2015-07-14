@@ -1,4 +1,4 @@
-angular.module('profileService', [])
+angular.module('profileService', ['articleService'])
 
 .factory('Profile', function($http) {
 	

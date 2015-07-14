@@ -55,7 +55,7 @@ module.exports = exports = function(app, express, schemaMiddleware) {
              .get(userHandler.getProfileData)
     
              // Update a user profile
-             .post(userHandler.updateProfile);
+             .put(userHandler.updateProfile);
        
         
     // Accounts (logged in)
@@ -65,12 +65,17 @@ module.exports = exports = function(app, express, schemaMiddleware) {
 
     // Articles
     // ============================================================
-    
+        
     // Create a new article
     apiRouter.post('/articles', contentHandler.handleArticleCreation);
     
-    // Update an article with the given id
-    apiRouter.put('/articles/:id', contentHandler.handleArticleUpdate);
+    apiRouter.route('/articles/:id')
+            
+             // Get an article
+             .get(contentHandler.getArticleData)
+             
+             // Update an article with the given id
+             .put(contentHandler.handleArticleUpdate);
     
     // Purchase an article
     apiRouter.post('/articles/:id/purchase', contentHandler.handleArticlePurchase);

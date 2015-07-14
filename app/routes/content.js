@@ -22,6 +22,20 @@ function ContentHandler(connection) {
 	// Articles
 	// ============================================================
 	
+	this.getArticleData = function(req, res, next) {
+		articles.findArticle(req.db, req.params.id, function(err, article) {
+			if (err) throw Error("Couldn't locate an article with the id " + req.params.id);
+			
+				if (article) {
+					if (err) throw Error("Failed to purchase article!");
+					res.json(article);
+				} else {
+					res.statusCode = 500;
+					res.json({"message": err.message});
+				}
+		});
+	}
+	
 	this.handleArticleCreation = function(req, res, next) {
 		users.findUser(req.db, req.decoded.id, function(err, user) {
 			if (err) throw Error("Couldn't locate a user with the id " + req.decoded.id);
@@ -63,6 +77,8 @@ function ContentHandler(connection) {
 	
 	this.handleArticlePurchase = function(req, res, next) {
 		users.findUser(req.db, req.decoded.id, function(err, user) {
+			console.log(req.decoded);
+			
 			if (err) throw Error("Couldn't locate a user with the id " + req.decoded.id);
 			
 			articles.findArticle(req.db, req.params.id, function(err, article) {
@@ -74,7 +90,7 @@ function ContentHandler(connection) {
 									   "language": article.language});
 					user.save(function(err) {
 						if (err) throw Error("Failed to purchase article!");
-						res.json(article);
+						res.json(user);
 					});
 				} else {
 					res.statusCode = 500;
