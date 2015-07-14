@@ -100,6 +100,19 @@ function ContentHandler(connection) {
 		});
 	}
 	
+	this.handleArticleDelete = function(req, res, next) {
+		
+		//  req.decoded.id
+		articles.deleteArticle(req.db, req.decoded.id, req.params.id, function(err, user) {
+			if (!err) {
+				res.json(user);
+			} else {
+				res.statusCode = 500;
+				res.json({"message": err.message});
+			}
+		});		
+	}
+	
 	// ============================================================
 	// Sections
 	// ============================================================

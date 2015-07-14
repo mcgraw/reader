@@ -75,7 +75,10 @@ module.exports = exports = function(app, express, schemaMiddleware) {
              .get(contentHandler.getArticleData)
              
              // Update an article with the given id
-             .put(contentHandler.handleArticleUpdate);
+             .put(contentHandler.handleArticleUpdate)
+             
+             // Delete an article
+             .delete(contentHandler.handleArticleDelete);
     
     // Purchase an article
     apiRouter.post('/articles/:id/purchase', contentHandler.handleArticlePurchase);

@@ -45,6 +45,33 @@ function ArticleDAO() {
 		});
 	};
 	
+	this.deleteArticle = function(db, user_id, article_id, callback) {
+		
+		// don't allow deleting an article that is already published
+		// the article could have already been purchased
+		db.Article.findOneAndRemove({'_id': article_id, 'published': false}, function(err) {
+			if (err) { return callback(err, null); }
+						
+			return removeArticleIdFromUser(db, user_id, article_id, callback);
+		});
+	}
+	
+	function removeArticleIdFromUser(db, user_id, article_id, callback) {
+		
+		db.User.findOne({'_id': user_id}, function(err, user) {
+			if (err) { return callback(err, null); }
+			
+			if (!user) { return callback(new Error('Couldn\'t find user'), null); }
+			
+			user.authored.pull({ '_id': article_id });
+			user.save(function(err) {
+				if (err) { return callback(err, null); }
+				
+				return callback(null, user);				
+			});			
+		});	
+	}
+	
 	// =========
 	// Section
 	// ========= 
